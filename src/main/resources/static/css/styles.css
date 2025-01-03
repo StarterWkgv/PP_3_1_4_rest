@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+
+html, body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+caption{
+    font-size: 40px;
+}
+th {
+    background-color: teal;
+    font-size: 20px;
+}
+
+td {
+    background-color: aquamarine;
+    font-size: 18px
+}
+input {
+    width: 200px;
+}
+
+.error {
+    font-size: 10pt;
+    color: red;
+}
