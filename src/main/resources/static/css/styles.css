@@ -31,3 +31,8 @@ input {
     font-size: 10pt;
     color: red;
 }
+
+.logout {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start; }

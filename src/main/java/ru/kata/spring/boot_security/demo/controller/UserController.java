@@ -1,5 +1,8 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,56 +22,59 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping({"/", "/index"})
     public String index() {
-        return "redirect:/users";
+        return "/index";
     }
 
     @GetMapping("/user")
-    public String showUser(){
-        return "/users/user";
+    public String showUser(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails ud = (UserDetails) auth.getPrincipal();
+        model.addAttribute("username",ud.getUsername());
+        return "/user/user";
     }
 
-    @GetMapping("/users")
+    @GetMapping("/admin")
     public String showAllUsersPage(Model model) {
         List<User> list = userService.showAll();
         model.addAttribute("users", list);
-        return "/users/users";
+        return "/admin/users";
     }
 
     @GetMapping("/users/new")
     public String showNewUserPage(@ModelAttribute("user") User user) {
-        return "users/new";
+        return "admin/new";
     }
 
     @PostMapping("/users")
     public String addNewUser(@ModelAttribute("user") @Valid User user, BindingResult br) {
         if (br.hasErrors()) {
-            return "/users/new";
+            return "/admin/new";
         }
         userService.save(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
-    @PostMapping("/users/delete")
+    @PostMapping("/admin/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.delete(id);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
-    @GetMapping("/users/edit")
+    @GetMapping("/admin/edit")
     public String showEditUserPage(@RequestParam("id") Long id, Model model) {
         User user = userService.getById(id);
         model.addAttribute("user", user);
-        return "users/edit";
+        return "/admin/edit";
     }
 
-    @PostMapping("/users/edit")
+    @PostMapping("/admin/edit")
     public String editUser(@RequestParam("id") Long id, @ModelAttribute("user") @Valid User user, BindingResult br) {
         if (br.hasErrors()) {
-            return "/users/edit";
+            return "/admin/edit";
         }
         userService.update(user, id);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 }
