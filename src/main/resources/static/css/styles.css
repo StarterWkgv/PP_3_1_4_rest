@@ -11,9 +11,11 @@ html, body {
     justify-content: center;
     background-color: #f0f0f0;
 }
-caption{
+
+caption {
     font-size: 40px;
 }
+
 th {
     background-color: teal;
     font-size: 20px;
@@ -23,8 +25,10 @@ td {
     background-color: aquamarine;
     font-size: 18px
 }
+
 input {
     width: 200px;
+
 }
 
 .error {
@@ -35,4 +39,11 @@ input {
 .logout {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-start; }
+    align-items: flex-start;
+}
+
+.container_new {
+display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
