@@ -42,12 +42,12 @@ public class UserController {
         return "/admin/users";
     }
 
-    @GetMapping("/users/new")
+    @GetMapping("/admin/new")
     public String showNewUserPage(@ModelAttribute("user") User user) {
         return "admin/new";
     }
 
-    @PostMapping("/users")
+    @PostMapping("/admin")
     public String addNewUser(@ModelAttribute("user") @Valid User user, BindingResult br) {
         if (br.hasErrors()) {
             return "/admin/new";

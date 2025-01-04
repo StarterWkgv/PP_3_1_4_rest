@@ -6,6 +6,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImp implements UserDao {
@@ -34,10 +35,21 @@ public class UserDaoImp implements UserDao {
         u.setLastName(user.getLastName());
         u.setAge(user.getAge());
         u.setEmail(user.getEmail());
+        u.setRole(user.getRole());
+        if (!user.getPassword().isEmpty()) {
+            u.setPassword(user.getPassword());
+        }
     }
 
     @Override
     public User getById(long id) {
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return entityManager.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultStream().findAny();
     }
 }

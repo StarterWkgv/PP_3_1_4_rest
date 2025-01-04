@@ -26,6 +26,11 @@
             <input type="text" id="email" th:field="*{email}">
             <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             <br>
+            <label for="password">Password</label>
+            <input type="text" id="password" th:field="*{password}">
+            <label for="role">Role</label>
+            <input type="text" id="role" th:field="*{role}">
+            <br>
         </div>
         <div style="text-align: right ">
             <input style="width: 100px" type="submit" value="Add user">

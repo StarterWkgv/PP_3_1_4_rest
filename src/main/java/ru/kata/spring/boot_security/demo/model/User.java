@@ -27,8 +27,14 @@ public class User {
 
     @NotEmpty(message = "The field should not be empty")
     @Email(message = "Wrong format")
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "role")
+    private String role;
+
+    @Column(name = "password")
+    private String password;
 
     public User() {
     }
@@ -79,5 +85,34 @@ public class User {
 
     public void setAge(byte age) {
         this.age = age;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
