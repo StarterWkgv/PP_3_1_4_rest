@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import ru.kata.spring.boot_security.demo.util.RoleType;
 
 @Configuration
 @EnableWebSecurity
@@ -25,8 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasAnyAuthority(RoleType.ADMIN.name())
+                .antMatchers("/user").hasAnyAuthority(RoleType.ADMIN.name(), RoleType.USER.name())
                 .antMatchers("/", "/index").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -44,21 +45,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // аутентификация inMemory
+    // аутентификация inMemory (закомментировать в объявлении UserServiceImp  UserDetailsService
+    // и аннотацию @Override в методе loadUserByUsername).
+
 //    @Bean
 //    @Override
 //    public UserDetailsService userDetailsService() {
 //        UserDetails user =
-//                User.withDefaultPasswordEncoder()
+//                User.builder()
 //                        .username("user")
+//                        .passwordEncoder(passwordEncoder()::encode)
 //                        .password("user")
-//                        .roles("USER")
+//                        .authorities("USER")
 //                        .build();
 //        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
+//                User.builder()
 //                        .username("admin")
+//                        .passwordEncoder(passwordEncoder()::encode)
 //                        .password("admin")
-//                        .roles("ADMIN")
+//                        .authorities("ADMIN")
 //                        .build();
 //        System.out.println(admin.getAuthorities());
 //

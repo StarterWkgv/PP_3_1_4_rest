@@ -7,4 +7,4 @@ insert into user (first_name, last_name, age, email, role, password) values ('Ro
 insert into user (first_name, last_name, age, email, role, password) values ('Jimmy', 'Carter', 99, 'jimmy@gmail.com', 'USER', '{bcrypt}123');
 insert into user (first_name, last_name, age, email, role, password) values ('Richard', 'Nixon', 100, 'richard@gmail.com', 'USER', '{bcrypt}123');
 insert into user (first_name, last_name, age, email, role, password) values ('Admin', 'Adminov', 20, 'admin', 'ROLE_ADMIN', '$2a$10$XqhidiGP2qmGJ/j.4ZWIu.73sAxzqx3DaQzfog/3rCeUZee3fcXai');
-insert into user (first_name, last_name, age, email, role, password) values ('User', 'Userson', 10, 'user@gmail.com', 'ROLE_USER', '$2a$10$xTfGvf6E./HJxELXL1w13O2H/XNOW3p29EmrfK7yX42FAhogV1ZYe');
+insert into user (first_name, last_name, age, email, role, password) values ('User', 'Userson', 10, 'user', 'ROLE_USER', '$2a$10$xTfGvf6E./HJxELXL1w13O2H/XNOW3p29EmrfK7yX42FAhogV1ZYe');

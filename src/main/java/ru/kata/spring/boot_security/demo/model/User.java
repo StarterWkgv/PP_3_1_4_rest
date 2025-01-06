@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Set;
 
 @Entity
 @Table(schema = "user")
@@ -30,8 +31,13 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "role")
-    private String role;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     @Column(name = "password")
     private String password;
@@ -39,12 +45,14 @@ public class User {
     public User() {
     }
 
-    public User(long id, String firstName, String lastName, byte age, String email) {
+    public User(long id, String firstName, String lastName, byte age, String email, Set<Role> roles, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.email = email;
+        this.roles = roles;
+        this.password = password;
     }
 
     public long getId() {
@@ -71,14 +79,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public byte getAge() {
         return age;
     }
@@ -87,12 +87,20 @@ public class User {
         this.age = age;
     }
 
-    public String getRole() {
-        return role;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getPassword() {
@@ -111,7 +119,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
+                ", roles=" + roles +
                 ", password='" + password + '\'' +
                 '}';
     }

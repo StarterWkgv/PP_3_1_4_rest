@@ -35,7 +35,7 @@ public class UserDaoImp implements UserDao {
         u.setLastName(user.getLastName());
         u.setAge(user.getAge());
         u.setEmail(user.getEmail());
-        u.setRole(user.getRole());
+        u.setRoles(user.getRoles());
         if (!user.getPassword().isEmpty()) {
             u.setPassword(user.getPassword());
         }
@@ -48,7 +48,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        return entityManager.createQuery("select u from User u where u.email = :email", User.class)
+        return entityManager.createQuery("select u from User u left join fetch u.roles where u.email = :email", User.class)
                 .setParameter("email", email)
                 .getResultStream().findAny();
     }

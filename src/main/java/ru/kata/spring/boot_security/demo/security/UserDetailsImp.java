@@ -2,11 +2,9 @@ package ru.kata.spring.boot_security.demo.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public class UserDetailsImp implements UserDetails {
     private final User user;
@@ -17,8 +15,7 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(user);
-        return Collections.singleton(Role.valueOf(user.getRole()));
+        return user.getRoles();
     }
 
     @Override
