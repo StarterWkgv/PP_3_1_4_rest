@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.security.UserDetailsImp;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
@@ -28,10 +30,8 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String showUser(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails ud = (UserDetails) auth.getPrincipal();
-        model.addAttribute("username",ud.getUsername());
+    public String showUser(@AuthenticationPrincipal UserDetailsImp userDetails, Model model) {
+        model.addAttribute("user", userDetails.getUser().hidePassword());
         return "/user/user";
     }
 
