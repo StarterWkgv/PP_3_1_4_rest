@@ -15,7 +15,8 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public List<User> showAll() {
-        return entityManager.createQuery("select  u from User u", User.class).getResultList();
+        return entityManager.createQuery("select distinct u from User u join fetch u.roles", User.class)
+                .getResultList();
     }
 
     @Override
@@ -48,8 +49,9 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        return entityManager.createQuery("select u from User u left join fetch u.roles where u.email = :email", User.class)
+        return entityManager.createQuery("select u from User u join fetch u.roles where u.email = :email", User.class)
                 .setParameter("email", email)
-                .getResultStream().findAny();
+                .getResultStream()
+                .findAny();
     }
 }

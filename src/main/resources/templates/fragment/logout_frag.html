@@ -7,8 +7,9 @@
 <body>
 <div class="logout" th:fragment="logout">
     <form th:action="@{/logout}" th:method="POST">
-        <input type="submit" value="Logout"/>
+        <input type="submit" class="logout_button" value="Logout">
     </form>
+<!--    <a class="logout_link" href="#" onclick="this.parentElement.querySelector('form').submit(); return false;">Logout</a>-->
 </div>
 </body>
 </html>

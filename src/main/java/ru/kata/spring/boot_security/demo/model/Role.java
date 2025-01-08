@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "role")
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority, Comparable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
@@ -18,16 +18,12 @@ public class Role implements GrantedAuthority {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
-
     public Role() {
     }
 
-    public Role(Long id, RoleType role, List<User> users) {
+    public Role(Long id, RoleType role ) {
         this.id = id;
         this.role = role;
-        this.users = users;
     }
 
     public Long getId() {
@@ -46,16 +42,31 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     @Override
     public String getAuthority() {
         return role.name();
+    }
+
+    @Override
+    public String toString() {
+        return this.role.name();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
+        Role role1 = (Role) o;
+        return getRole() == role1.getRole();
+    }
+
+    @Override
+    public int hashCode() {
+        return getRole().hashCode();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.role.ordinal() - ((Role) o).getRole().ordinal();
     }
 }

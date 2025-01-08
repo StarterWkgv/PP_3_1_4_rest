@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.security.UserDetailsImp;
 
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class UserServiceImp implements UserService
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new UserDetailsImp(userDao.getUserByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found")));
+        return userDao.getUserByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

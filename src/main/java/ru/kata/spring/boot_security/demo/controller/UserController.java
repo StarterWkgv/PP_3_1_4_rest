@@ -1,7 +1,9 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -9,11 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.security.UserDetailsImp;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.util.RoleType;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -26,20 +31,28 @@ public class UserController {
 
     @GetMapping({"/", "/index"})
     public String index() {
-        return "/index";
+        return "redirect:/login";
     }
 
     @GetMapping("/user")
-    public String showUser(@AuthenticationPrincipal UserDetailsImp userDetails, Model model) {
-        model.addAttribute("user", userDetails.getUser().hidePassword());
-        return "/user/user";
+    public String showUser(@AuthenticationPrincipal User user, Model model) {
+        Set<String> roles = AuthorityUtils.authorityListToSet(user.getAuthorities());
+        model.addAttribute("users", Collections.singleton(user));
+        model.addAttribute("details", user);
+        return "/user/info";
     }
 
     @GetMapping("/admin")
-    public String showAllUsersPage(Model model) {
+    public String showAllUsersPage(Model model, @AuthenticationPrincipal UserDetails ud) {
         List<User> list = userService.showAll();
+        Set<String> roles = AuthorityUtils.authorityListToSet(ud.getAuthorities());
         model.addAttribute("users", list);
-        return "/admin/users";
+        model.addAttribute("details", ud);
+//        model.addAttribute("adminPanel", true);
+//        model.addAttribute("userName", ud.getUsername());
+//        model.addAttribute("roles", roles);
+
+        return "/user/info";
     }
 
     @GetMapping("/admin/new")

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin_info_fragment</title>
+</head>
+<body>
+<div class="table_container" th:fragment="table">
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th:block th:if="${adminPanel}">
+                <th>Edit</th>
+                <th>Delete</th>
+            </th:block>
+        </tr>
+        <th:block th:each="user : ${users}">
+            <tr>
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getFirstName()}"></td>
+                <td th:text="${user.getLastName()}"></td>
+                <td th:text="${user.getAge()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td>
+                    <span th:each="auth : ${user.getAuthorities()}" class="space" th:text="${auth.getAuthority()}"></span>
+                </td>
+
+                <th:block th:if="${adminPanel}">
+                    <td><a th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>
+                    <td>
+                        <form th:method="POST" th:action="@{/admin/delete(id=${user.getId()})}"></form>
+                        <a href="#"
+                           onclick="this.parentElement.querySelector('form').submit(); return false;">Delete</a>
+                    </td>
+                </th:block>
+            </tr>
+        </th:block>
+    </table>
+
+
+</div>
+</body>
+</html>
