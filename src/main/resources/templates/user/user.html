@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-<div th:insert="~{fragment/logout_frag :: logout}"></div>
+<div th:insert="~{fragment/header_frag :: logout}"></div>
 <h1><span th:text="${user.getPassword()}"></span>, welcome spring boot security page!</h1>
 <h1><span th:text="|test concat ${user.getFirstName()}|"></span>, welcome spring boot security page!</h1>
 <div th:text="${user.getFirstName()}"></div>

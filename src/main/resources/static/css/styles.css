@@ -6,8 +6,8 @@
     --table-row-border-color: #ebeef1;
     --button-edit-color: #18a2ba;
     --button-delete-color: #df3444;
-    --button-switch-pannel: #007aff;
-    --logout-link-color:#6c7e92;
+    --button-not-active: #007aff;
+    --logout-link-color: #6c7e92;
 
 }
 
@@ -22,8 +22,9 @@ html, body {
     /*height: 100%;*/
     /*width: 100%;*/
     display: flex;
-    font-size: 16px;
+    font-size: 12px;
     flex-direction: column;
+    font-family: Arial, serif;
     /*justify-content: center;*/
     /*background-color: red;*/
 }
@@ -38,22 +39,22 @@ caption {
 
 th {
     /*background-color: teal;*/
-    font-size: 1.7rem;
+    font-size: 1.1rem;
     text-align: left;
 }
 
 td {
     /*background-color: aquamarine;*/
-    font-size: 1.6rem
+    font-size: 1.4rem
 }
 
 td, th {
     border-top: 2px solid var(--table-row-border-color);
 }
 
-input {
-    width: 200px;
-}
+/*input {*/
+/*    width: 200px;*/
+/*}*/
 
 .error {
     font-size: 10pt;
@@ -78,7 +79,7 @@ input {
     padding-right: 10px;
 }
 
-.container_info {
+.panels-container {
     /*background-color: red;*/
     width: 100vw;
     height: 95vh;
@@ -86,20 +87,24 @@ input {
     align-items: stretch;
 }
 
-.side {
+.left-panel {
     width: 15%;
     background-color: white;
     display: flex;
     flex-direction: column;
 }
 
-.capitalize::first-letter{
+.capitalize::first-letter {
     text-transform: uppercase;
 }
 
-.info {
+.right-panel {
     width: 85%;
     background-color: var(--info-color);
+}
+
+.info-container {
+    margin: 30px;
 }
 
 .table_container {
@@ -117,7 +122,7 @@ table {
 
 }
 
-.logout_button{
+.logout_button {
     color: var(--logout-link-color);
     display: inline;
     width: fit-content;
@@ -129,7 +134,7 @@ table {
 .button_switch_panel {
     display: block;
     text-decoration: none;
-    color: var(--button-switch-pannel);
+    color: var(--button-not-active);
     padding: 10px;
     border-radius: 5px;
     margin-right: 2px;
@@ -137,6 +142,49 @@ table {
 }
 
 .checked_panel {
-    background-color: var(--button-switch-pannel);
+    background-color: var(--button-not-active);
     color: white;
+}
+
+.tabs {
+    display: flex;
+}
+
+
+.tab-content {
+    border: 2px solid var(--table-row-border-color);
+}
+
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    /*padding: 15px;*/
+    /*background-color: var(--table-head-color);*/
+    background-color: white;
+}
+.table-caption{
+    padding: 10px;
+    background-color: var(--table-head-color);
+}
+
+.table-content{
+    padding: 10px;
+}
+tr:nth-child(even) {
+    background-color: var(--table-row-color);
+}
+.tab{
+    display: block;
+    text-decoration: none;
+    border: none;
+    padding: 10px;
+    background-color: var(--info-color);
+    color: var(--button-not-active);
+}
+.tab--active{
+    border: 2px solid var(--table-row-border-color);
+    border-bottom: none;
+    color:black;
+    border-radius: 5px 5px 0 0;
+
 }

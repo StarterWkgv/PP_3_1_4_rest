@@ -9,13 +9,18 @@
 <div class="panels-container">
     <th:block th:insert="fragment/left_pannel_frag::leftPanel(${details}, ${uri})"></th:block>
     <div class="right-panel">
-        <div>
-            <h1 th:if="${adminPanel}">Admin panel</h1>
-            <h1 th:unless="${adminPanel}">User information-page</h1>
-            <div class="tabs_users">
-                <div>
-                    <h2>All users</h2>
-                    <div>
+        <div class="info-container">
+            <h1> Admin panel</h1>
+            <div>
+                <div class="tabs">
+                    <input class=" tab tab--active" type="button" value="Users table"/>
+                    <input class="tab" type="button" value="New User"/>
+                </div>
+                <div class="tab-content">
+                    <div class="table-caption">
+                        <h2>All users</h2>
+                    </div>
+                    <div class="table-content">
                         <th:block th:insert="~{fragment/info_table_frag::table(${users},${adminPanel})}"></th:block>
 
                     </div>

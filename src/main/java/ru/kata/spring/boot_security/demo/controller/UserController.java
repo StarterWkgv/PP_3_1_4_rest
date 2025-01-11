@@ -45,14 +45,9 @@ public class UserController {
     @GetMapping("/admin")
     public String showAllUsersPage(Model model, @AuthenticationPrincipal UserDetails ud) {
         List<User> list = userService.showAll();
-        Set<String> roles = AuthorityUtils.authorityListToSet(ud.getAuthorities());
         model.addAttribute("users", list);
         model.addAttribute("details", ud);
-//        model.addAttribute("adminPanel", true);
-//        model.addAttribute("userName", ud.getUsername());
-//        model.addAttribute("roles", roles);
-
-        return "/user/info";
+        return "/admin/admin";
     }
 
     @GetMapping("/admin/new")
