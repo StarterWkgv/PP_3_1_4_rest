@@ -1,4 +1,6 @@
 :root {
+    --header-height: 60px;
+
     --info-color: #f8f9fa;
     --header-color: #353a40;
     --table-head-color: #f7f7f7;
@@ -7,7 +9,8 @@
     --button-edit-color: #18a2ba;
     --button-delete-color: #df3444;
     --button-not-active: #007aff;
-    --logout-link-color: #6c7e92;
+    --logout-link-color: #91979f;
+
 
 }
 
@@ -17,21 +20,44 @@
     padding: 0;
 
 }
-
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+html {
+    overflow-y: scroll;
+}
 html, body {
-    /*height: 100%;*/
-    /*width: 100%;*/
     display: flex;
     font-size: 12px;
     flex-direction: column;
-    font-family: Arial, serif;
-    /*justify-content: center;*/
-    /*background-color: red;*/
+    font-family: system-ui, Arial;
+}
+
+/*TODO: remove*/
+.podgonka {
+    position: fixed;
+    display: block;
+    width: 1725px;
+    height: 1210px;
+    inset: 0;
+    z-index: 9999;
+    background-image: url("/img/2_admin-page.png");
+    background-size: cover;
+    border: none;
+    margin-top: -107px;
+    margin-left: -18px;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 h1 {
     font-size: 3.5rem;
-    margin-bottom: 13px;
 }
 
 h2 {
@@ -43,7 +69,7 @@ caption {
 }
 
 .space {
-    margin-right: 5px;
+    margin-right: 7px;
 }
 
 th {
@@ -54,7 +80,8 @@ th {
 
 td {
     /*background-color: aquamarine;*/
-    font-size: 1.4rem
+    font-size: 1.4rem;
+    padding: 20px 0;
 }
 
 td, th {
@@ -77,32 +104,40 @@ td, th {
 }
 
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
     background-color: var(--header-color);
     color: white;
     width: 100vw;
-    height: 6vh;
+    height: var(--header-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 24px;
     padding-right: 10px;
-    font-size: 2rem;
+    font-size: 25px;
 }
 
 .panels-container {
     /*background-color: red;*/
-    width: 100vw;
-    height: 94vh;
+    width: 100%;
+    margin-top: var(--header-height);
+    height: calc(100vh - var(--header-height));
     display: flex;
     align-items: stretch;
 }
 
 .left-panel {
-    width: 17%;
     background-color: white;
     display: flex;
     flex-direction: column;
-    padding-top: 16px;
+    padding-top: 20px;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    height: 100%;
+    width: 280px;
 }
 
 .capitalize::first-letter {
@@ -110,16 +145,20 @@ td, th {
 }
 
 .right-panel {
-    width: 85%;
+    margin-left: 280px;
+    width: calc(100% - 280px);
     background-color: var(--info-color);
 }
 
 .info-container {
-    margin-top: 25px;
-    margin-left: 30px;
-    margin-right: 50px;
+    margin-top: 16px;
+    margin-left: 36px;
 }
+.info-caption{
+    font-weight: 600;
+    font-size: 50px;
 
+}
 .table_container {
     background-color: white;
 }
@@ -142,17 +181,21 @@ table {
     cursor: pointer;
     background-color: var(--header-color);
     border: none;
+    font-size: 20px;
+    padding: 8px 4px;
+    margin-right: 30px;
+    margin-top: 4px;
 }
 
 .button_switch_panel {
     display: block;
     text-decoration: none;
     color: var(--button-not-active);
-    padding: 13px;
+    padding: 11px 19px;
     border-radius: 4px;
     margin-right: 2px;
     cursor: pointer;
-    font-size: 1.3rem;
+    font-size: 20px;
 }
 
 .checked_panel {
@@ -170,7 +213,7 @@ table {
 }
 
 .tab-content {
-    display: flex;
+    display: block;
     flex-direction: column;
     /*padding: 15px;*/
     /*background-color: var(--table-head-color);*/
@@ -192,13 +235,15 @@ tr:nth-child(even) {
 }
 
 .tab {
-    display: block;
+    font-size: 20px;
+    padding: 13px 21px;
+    margin-top: 16px;
     text-decoration: none;
+    display: block;
     border: none;
-    padding: 15px;
     background-color: var(--info-color);
     color: var(--button-not-active);
-    font-size: 1.2rem;
+
 }
 
 .tab--active {

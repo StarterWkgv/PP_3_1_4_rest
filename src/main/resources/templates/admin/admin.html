@@ -10,15 +10,15 @@
     <th:block th:insert="fragment/left_pannel_frag::leftPanel(${details}, ${uri})"></th:block>
     <div class="right-panel">
         <div class="info-container">
-            <h1> Admin panel</h1>
+            <div class="info-caption"> Admin panel</div>
             <div>
                 <div class="tabs">
-                    <input class=" tab tab--active" type="button" value="Users table"/>
-                    <input class="tab" type="button" value="New User"/>
+                    <a class=" tab tab--active" href="#">Users table</a>
+                    <a class="tab" href="#" >New User</a>
                 </div>
                 <div class="tab-content">
                     <div class="table-caption">
-                        <h2>All users</h2>
+                        <h3>All users</h3>
                     </div>
                     <div class="table-content">
                         <th:block th:insert="~{fragment/info_table_frag::table(${users},${adminPanel})}"></th:block>
@@ -33,10 +33,14 @@
 
     </div>
 </div>
+<div class="podgonka">
+
+</div>
 <!--<div class="modal-container">-->
 <!--<div class="modal-window">-->
 
 <!--</div>-->
 <!--</div>-->
+<script src="/js/script.js"></script>
 </body>
 </html>
