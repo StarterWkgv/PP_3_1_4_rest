@@ -36,14 +36,16 @@ public class User implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @NotEmpty(message = "The field should not be empty")
     private Set<Role> roles;
 
+    @NotEmpty(message = "The field should not be empty")
     @Column(name = "password")
     private String password;
 

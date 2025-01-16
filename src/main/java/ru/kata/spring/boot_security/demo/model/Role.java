@@ -12,7 +12,7 @@ public class Role implements GrantedAuthority, Comparable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    private Long id;
+    private int id;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -21,16 +21,17 @@ public class Role implements GrantedAuthority, Comparable {
     public Role() {
     }
 
-    public Role(Long id, RoleType role ) {
+    public Role(int id, RoleType role) {
         this.id = id;
         this.role = role;
     }
 
-    public Long getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

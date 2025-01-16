@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.RoleType;
+import ru.kata.spring.boot_security.demo.util.UserEmailValidator;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -24,9 +25,11 @@ import java.util.Set;
 @RequestMapping("/")
 public class UserController {
     private final UserService userService;
+    private final UserEmailValidator userEmailValidator;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserEmailValidator userEmailValidator) {
         this.userService = userService;
+        this.userEmailValidator = userEmailValidator;
     }
 
     @GetMapping({"/", "/index"})
@@ -39,7 +42,7 @@ public class UserController {
         Set<String> roles = AuthorityUtils.authorityListToSet(user.getAuthorities());
         model.addAttribute("users", Collections.singleton(user));
         model.addAttribute("details", user);
-        return "/user/info";
+        return "/user/user";
     }
 
     @GetMapping("/admin")
@@ -51,12 +54,19 @@ public class UserController {
     }
 
     @GetMapping("/admin/new")
-    public String showNewUserPage(@ModelAttribute("user") User user) {
+    public String showNewUserPage(Model model, @ModelAttribute("user") User user,
+                                  @AuthenticationPrincipal UserDetails ud) {
+        model.addAttribute("details", ud);
+        model.addAttribute("rolList", RoleType.values());
         return "admin/new";
     }
 
     @PostMapping("/admin")
-    public String addNewUser(@ModelAttribute("user") @Valid User user, BindingResult br) {
+    public String addNewUser(Model model, @ModelAttribute("user") @Valid User user, BindingResult br,
+                             @AuthenticationPrincipal UserDetails ud) {
+        userEmailValidator.validate(user,br);
+        model.addAttribute("details", ud);
+        model.addAttribute("rolList", RoleType.values());
         if (br.hasErrors()) {
             return "/admin/new";
         }

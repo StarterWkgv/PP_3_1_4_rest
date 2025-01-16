@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Admin_info_fragment</title>
 </head>
 <body>
 <div class="table_container" th:fragment="table(users,adminPanel)">
-    <table>
+    <table id="info">
         <tr>
             <th>ID</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Age</th>
             <th>Email</th>
             <th>Role</th>
@@ -28,15 +28,19 @@
                 <td th:text="${user.getAge()}"></td>
                 <td th:text="${user.getEmail()}"></td>
                 <td>
-                    <span th:each="auth : ${user.getAuthorities()}" class="space" th:text="${auth.getAuthority()}"></span>
+                    <span th:each="auth : ${user.getAuthorities()}" class="space"
+                          th:text="${auth.getAuthority()}"></span>
                 </td>
 
                 <th:block th:if="${adminPanel}">
-                    <td><a th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>
                     <td>
-                        <form th:method="POST" th:action="@{/admin/delete(id=${user.getId()})}"></form>
-                        <a href="#"
-                           onclick="this.parentElement.querySelector('form').submit(); return false;">Delete</a>
+                        <button class="button button-edit">Edit</button>
+                        <!--                        <a th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>-->
+                    <td>
+                        <button class="button button-delete">Delete</button>
+                        <!--                        <form th:method="POST" th:action="@{/admin/delete(id=${user.getId()})}"></form>-->
+                        <!--                        <a href="#"-->
+                        <!--                           onclick="this.parentElement.querySelector('form').submit(); return false;">Delete</a>-->
                     </td>
                 </th:block>
             </tr>

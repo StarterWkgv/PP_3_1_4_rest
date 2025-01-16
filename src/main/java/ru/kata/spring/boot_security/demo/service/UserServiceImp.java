@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional()
@@ -50,6 +51,11 @@ public class UserServiceImp implements UserService
     @Override
     public User getById(long id) {
         return userDao.getById(id);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
     }
 
     @Transactional(readOnly = true)

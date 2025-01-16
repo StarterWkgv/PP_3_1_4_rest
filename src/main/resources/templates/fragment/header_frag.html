@@ -10,7 +10,10 @@
         <span class="bold" th:text="${details.getUsername()}"></span> <span >with     roles:</span>
         <span class="space" th:each="auth : ${details.getAuthorities()}"  th:text="${auth.getAuthority()}"></span>
     </div>
+    <form th:method="POST" th:action="@{/logout}">
         <input type="submit" class="logout_button" value="Logout">
+
+    </form>
     <!--    <a class="logout_link" href="#" onclick="this.parentElement.querySelector('form').submit(); return false;">Logout</a>-->
 </div>
 </body>
