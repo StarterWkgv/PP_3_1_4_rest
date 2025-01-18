@@ -39,7 +39,6 @@ public class UserController {
 
     @GetMapping("/user")
     public String showUser(@AuthenticationPrincipal User user, Model model) {
-        Set<String> roles = AuthorityUtils.authorityListToSet(user.getAuthorities());
         model.addAttribute("users", Collections.singleton(user));
         model.addAttribute("details", user);
         return "/user/user";
@@ -64,7 +63,7 @@ public class UserController {
     @PostMapping("/admin")
     public String addNewUser(Model model, @ModelAttribute("user") @Valid User user, BindingResult br,
                              @AuthenticationPrincipal UserDetails ud) {
-        userEmailValidator.validate(user,br);
+        userEmailValidator.validate(user, br);
         model.addAttribute("details", ud);
         model.addAttribute("rolList", RoleType.values());
         if (br.hasErrors()) {
@@ -88,7 +87,8 @@ public class UserController {
     }
 
     @PostMapping("/admin/edit")
-    public String editUser(@RequestParam("id") Long id, @ModelAttribute("user") @Valid User user, BindingResult br) {
+    public String editUser(@RequestParam("id") Long id,
+                           @ModelAttribute("user") @Valid User user, BindingResult br) {
         if (br.hasErrors()) {
             return "/admin/edit";
         }

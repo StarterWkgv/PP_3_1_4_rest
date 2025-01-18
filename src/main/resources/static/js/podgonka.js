@@ -8,7 +8,7 @@ window.addEventListener("keydown", e => {
     if (e.ctrlKey && e.keyCode === 81) {
         e.preventDefault();
         caption.textContent = "image opacity: " + getComputedStyle(podgonka).opacity;
-        if (getComputedStyle(podgonka).display=== "none") {
+        if (getComputedStyle(podgonka).display === "none") {
             podgonka.style.display = "block";
         } else {
             podgonka.style.display = "none";

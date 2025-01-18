@@ -13,7 +13,7 @@
             <div class="info-caption"> Admin panel</div>
             <div>
                 <div class="tabs">
-                    <a class=" tab tab--active" th:href="@{/admin}">Users table</a>
+                    <a class="tab tab--active" th:href="@{/admin}">Users table</a>
                     <a class="tab" th:href="@{/admin/new}" >New User</a>
                 </div>
                 <div class="tab-content">
@@ -34,19 +34,22 @@
     </div>
 </div>
 <div class="modal-container">
+<!--    <th:block th:include="~{fragment/form_fragment::form('form-new', user, rolList)}"></th:block>-->
 <!--    <th:block th:insert="~{fragment/form_fragment::form(fclass, user, rolList)}"></th:block>-->
 <div class="modal-window">
+
+</div>
+</div>
+
 
 <!--***********************************************-->
 <!--TODO: remove-->
 <div class="podgonka" >
-<div class="podgonka-caption">Opacity</div>
+    <div class="podgonka-caption">Opacity</div>
 </div>
 
 <!--***********************************************-->
 
-</div>
-</div>
 <script src="/js/script.js"></script>
 <script src="/js/podgonka.js"></script> <!--TODO: remove-->
 </body>

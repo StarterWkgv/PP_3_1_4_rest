@@ -34,8 +34,8 @@
 
                 <th:block th:if="${adminPanel}">
                     <td>
-                        <button class="button button-edit">Edit</button>
-                        <!--                        <a th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>-->
+                        <!--                        <button class="button button-edit">Edit</button>-->
+                        <a class="button button-edit" th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>
                     <td>
                         <button class="button button-delete">Delete</button>
                         <!--                        <form th:method="POST" th:action="@{/admin/delete(id=${user.getId()})}"></form>-->
