@@ -14,7 +14,7 @@
             <div>
                 <div class="tabs">
                     <a class="tab tab--active" th:href="@{/admin}">Users table</a>
-                    <a class="tab" th:href="@{/admin/new}" >New User</a>
+                    <a class="tab" th:href="@{/admin/new}">New User</a>
                 </div>
                 <div class="tab-content">
                     <div class="table-caption">
@@ -34,17 +34,55 @@
     </div>
 </div>
 <div class="modal-container">
-<!--    <th:block th:include="~{fragment/form_fragment::form('form-new', user, rolList)}"></th:block>-->
-<!--    <th:block th:insert="~{fragment/form_fragment::form(fclass, user, rolList)}"></th:block>-->
-<div class="modal-window">
+    <!--    <th:block th:include="~{fragment/form_fragment::form('form-new', user, rolList)}"></th:block>-->
+    <!--    <th:block th:insert="~{fragment/form_fragment::form(fclass, user, rolList)}"></th:block>-->
+    <div class="modal-window">
+        <div class="modal-caption">
+            <div>Delete user</div>
+            <button class="modal-cross" id="modal-cross">x</button>
+        </div>
+        <div class="form-container">
 
-</div>
+            <div id="modal-fields" class="form-new">
+                <label for="id">Id</label>
+                <input type="text" id="id" value="" disabled>
+                <label for="firstName">First name</label>
+                <input type="text" id="firstName" value="">
+
+                <label for="lastName">Last name</label>
+                <input type="text" id="lastName" value="">
+
+                <label for="age">Age</label>
+                <input type="number" min="0" max="127" id="age" required pattern='\d*' value="">
+
+                <label for="email">Email</label>
+                <input type="text" id="email" value="">
+
+                <label for="password">Password</label>
+                <input type="text" id="password" value="">
+
+                <label for="role">Role</label>
+                <select id="role" class="custom-select" multiple>
+                    <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
+                </select>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="button modal-close" id="modal-close">Close</button>
+            <button class="button modal-edit" id="modal-edit">Edit</button>
+            <button class="button modal-delete" id="modal-delete">Delete</button>
+
+        </div>
+
+
+    </div>
 </div>
 
 
 <!--***********************************************-->
 <!--TODO: remove-->
-<div class="podgonka" >
+<div class="podgonka">
     <div class="podgonka-caption">Opacity</div>
 </div>
 

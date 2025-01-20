@@ -11,7 +11,8 @@
     --button-delete-color: #dc3545;
     --button-not-active: #007aff;
     --logout-link-color: #91979f;
-
+    --button-add-new-color: #218838;
+    --input-disabled-color: #e9ecef;
 
 }
 
@@ -19,7 +20,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-
 }
 
 
@@ -61,7 +61,7 @@ html, body {
     background-image: url("/img/3_add-new-user.png");
 }
 
-.podgonka-user{
+.podgonka-user {
     background-image: url("/img/6_user-page.png");
 }
 
@@ -95,11 +95,6 @@ caption {
     margin-right: 7px;
 }
 
-
-/*input {*/
-/*    width: 200px;*/
-/*}*/
-
 .error {
     font-size: 10pt;
     color: red;
@@ -128,7 +123,6 @@ caption {
 }
 
 .panels-container {
-    /*background-color: red;*/
     width: 100%;
     margin-top: var(--header-height);
     height: calc(100vh - var(--header-height));
@@ -166,17 +160,13 @@ caption {
 
 .table_container {
     background-color: white;
-    margin-top: 26px;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-bottom: 41px;
+    margin: 26px 25px 41px;
 }
 
 
 th {
     font-size: 20px;
     text-align: left;
-    /*padding-left: 15px;*/
     padding-top: 16px;
     padding-bottom: 16px;
     vertical-align: top;
@@ -184,7 +174,6 @@ th {
 }
 
 td {
-    /*background-color: aquamarine;*/
     padding-top: 18px;
     padding-bottom: 27px;
     text-align: left;
@@ -260,8 +249,6 @@ table {
 .tab-content {
     display: block;
     flex-direction: column;
-    /*padding: 15px;*/
-    /*background-color: var(--table-head-color);*/
     background-color: white;
 }
 
@@ -283,7 +270,6 @@ table {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*padding-top: 27px;*/
 }
 
 .form-new > label {
@@ -292,8 +278,6 @@ table {
     font-weight: 700;
     margin-top: 27px;
     margin-bottom: 2px;
-
-
 }
 
 .form-new > input {
@@ -352,16 +336,13 @@ input[type='number']:focus {
     margin-top: 4px;
 }
 
-/*.wrapper-input > input  {*/
-/*    */
-/*}*/
 
 .table-content {
     /*display: flex;*/
     /*justify-content: center;*/
 }
 
-tr:nth-child(even) {
+tbody tr:nth-child(odd) {
     background-color: var(--table-row-color);
 }
 
@@ -374,9 +355,7 @@ tr:nth-child(even) {
 
 .tab {
     font-size: 20px;
-    /*padding: 13px 21px;*/
     padding: 10px 21px 13px;
-
     text-decoration: none;
     display: block;
     border: none;
@@ -402,13 +381,15 @@ tr:nth-child(even) {
 }
 
 .modal-window {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 50%;
     left: 50%;
     right: 30%;
     bottom: initial;
     border: 1px solid rgb(204, 204, 204);
-    background: rgb(255, 255, 255);
+    background: white;
     overflow: auto;
     border-radius: 4px;
     outline: none;
@@ -419,4 +400,50 @@ tr:nth-child(even) {
     margin-right: -50%;
     transform: translate(-50%, -50%);
 
+}
+
+.modal-cross {
+    display: block;
+    color: #495057;
+    background-color: white;
+    border: none;
+
+}
+
+.modal-edit {
+    background-color: var(--button-not-active);
+}
+
+.modal-delete {
+    background-color: var(--button-delete-color);
+}
+
+.modal-close {
+    background-color: #495057;
+}
+
+.modal-caption {
+    border-bottom: solid 1px var(--table-row-border-color);
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-footer {
+    text-align: right;
+    border-top: solid 1px var(--table-row-border-color);
+}
+
+.button-add_new {
+    background-color: var(--button-add-new-color);
+
+    margin-top: 19px;
+    font-size: 25px;
+    padding: 17px 20px 13px;
+}
+
+input[type="text"]:disabled,
+input[type="number"]:disabled,
+select[type="number"]:disabled
+{
+    background-color: var(--input-disabled-color);
 }

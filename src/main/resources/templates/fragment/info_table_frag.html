@@ -8,6 +8,7 @@
 <body>
 <div class="table_container" th:fragment="table(users,adminPanel)">
     <table id="info">
+        <thead>
         <tr>
             <th>ID</th>
             <th>First Name</th>
@@ -20,31 +21,33 @@
                 <th>Delete</th>
             </th:block>
         </tr>
-        <th:block th:each="user : ${users}">
-            <tr>
-                <td th:text="${user.getId()}"></td>
-                <td th:text="${user.getFirstName()}"></td>
-                <td th:text="${user.getLastName()}"></td>
-                <td th:text="${user.getAge()}"></td>
-                <td th:text="${user.getEmail()}"></td>
-                <td>
-                    <span th:each="auth : ${user.getAuthorities()}" class="space"
-                          th:text="${auth.getAuthority()}"></span>
-                </td>
 
-                <th:block th:if="${adminPanel}">
-                    <td>
-                        <!--                        <button class="button button-edit">Edit</button>-->
-                        <a class="button button-edit" th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>
-                    <td>
-                        <button class="button button-delete">Delete</button>
-                        <!--                        <form th:method="POST" th:action="@{/admin/delete(id=${user.getId()})}"></form>-->
-                        <!--                        <a href="#"-->
-                        <!--                           onclick="this.parentElement.querySelector('form').submit(); return false;">Delete</a>-->
-                    </td>
-                </th:block>
-            </tr>
-        </th:block>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td data-name="id" th:text="${user.getId()}"></td>
+            <td data-name="firstName" th:text="${user.getFirstName()}"></td>
+            <td data-name="lastName" th:text="${user.getLastName()}"></td>
+            <td data-name="age" th:text="${user.getAge()}"></td>
+            <td data-name="email" th:text="${user.getEmail()}"></td>
+            <td data-name="role">
+                    <span th:each="auth : ${user.getAuthorities()}"
+                          th:text="|${auth.getAuthority()} |"></span>
+            </td>
+
+            <th:block th:if="${adminPanel}">
+                <td>
+                    <button class="button button-edit">Edit</button>
+                    <!--                        <a class="button button-edit" th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>-->
+                <td>
+                    <button class="button button-delete">Delete</button>
+                    <!--                        <form th:method="POST" th:action="@{/admin/delete(id=${user.getId()})}"></form>-->
+                    <!--                        <a href="#"-->
+                    <!--                           onclick="this.parentElement.querySelector('form').submit(); return false;">Delete</a>-->
+                </td>
+            </th:block>
+        </tr>
+        </tbody>
     </table>
 
 

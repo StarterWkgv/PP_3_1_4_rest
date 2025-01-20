@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -49,6 +51,7 @@ public class UserController {
         List<User> list = userService.showAll();
         model.addAttribute("users", list);
         model.addAttribute("details", ud);
+        model.addAttribute("rolList", RoleType.values());
         return "/admin/admin";
     }
 
@@ -73,10 +76,17 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/admin/delete")
-    public String deleteUser(@RequestParam("id") Long id) {
+    @DeleteMapping("/admin/users")
+    @ResponseBody
+    public ResponseEntity<HttpStatus> deleteUser(@RequestParam("id") Long id) {
         userService.delete(id);
-        return "redirect:/admin";
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("admin/users")
+    @ResponseBody
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.showAll(), HttpStatus.OK);
     }
 
     @GetMapping("/admin/edit")
