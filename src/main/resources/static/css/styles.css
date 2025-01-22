@@ -13,6 +13,10 @@
     --logout-link-color: #91979f;
     --button-add-new-color: #218838;
     --input-disabled-color: #e9ecef;
+    --img-path-admin: url("/img/2_admin-page.png");
+    --img-path-new:url("/img/3_add-new-user.png");
+    --img-path-user: url("/img/6_user-page.png");
+    --img-path-modal-delete: url("/img/5_delete-user.png");
 
 }
 
@@ -48,7 +52,7 @@ html, body {
     height: 1210px;
     inset: 0;
     z-index: 9999;
-    background-image: url("/img/2_admin-page.png");
+    background-image: var(--img-path-modal-delete);
     background-size: cover;
     border: none;
     margin-top: -107px;
@@ -58,11 +62,11 @@ html, body {
 }
 
 .podgonka-new {
-    background-image: url("/img/3_add-new-user.png");
+    background-image: var(--img-path-new);
 }
 
 .podgonka-user {
-    background-image: url("/img/6_user-page.png");
+    background-image: var(--img-path-user) ;
 }
 
 .podgonka-caption {

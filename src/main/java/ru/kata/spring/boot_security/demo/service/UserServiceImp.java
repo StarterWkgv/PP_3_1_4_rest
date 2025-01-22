@@ -6,62 +6,62 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional()
+@Transactional(readOnly = true)
 public class UserServiceImp implements UserService
         , UserDetailsService {
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
-    public UserServiceImp(UserDao userDao, PasswordEncoder encoder) {
-        this.userDao = userDao;
+    public UserServiceImp(UserRepository userRepository, PasswordEncoder encoder) {
+        this.userRepository = userRepository;
         this.encoder = encoder;
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<User> showAll() {
-        return userDao.showAll();
+        return userRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        userDao.save(user);
+        userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public void delete(long id) {
-        userDao.delete(id);
+        userRepository.delete(id);
     }
 
+    @Transactional
     @Override
     public void update(User user, long id) {
         user.setPassword(encoder.encode(user.getPassword()));
-        userDao.update(user, id);
+        userRepository.update(user, id);
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public User getById(long id) {
-        return userDao.getById(id);
+    public Optional<User> getById(long id) {
+        return userRepository.getById(id);
     }
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        return userDao.getUserByEmail(email);
+        return userRepository.getUserByEmail(email);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDao.getUserByEmail(username)
+        return userRepository.getUserByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

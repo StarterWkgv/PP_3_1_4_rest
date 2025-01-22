@@ -2,16 +2,14 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
+import ru.kata.spring.boot_security.demo.mapper.UserDtoMapper;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.RoleType;
@@ -20,18 +18,18 @@ import ru.kata.spring.boot_security.demo.util.UserEmailValidator;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
 public class UserController {
     private final UserService userService;
     private final UserEmailValidator userEmailValidator;
-
-    public UserController(UserService userService, UserEmailValidator userEmailValidator) {
+    private final UserDtoMapper userDtoMapper;
+    public UserController(UserService userService, UserEmailValidator userEmailValidator, UserDtoMapper userDtoMapper) {
         this.userService = userService;
         this.userEmailValidator = userEmailValidator;
+        this.userDtoMapper = userDtoMapper;
     }
 
     @GetMapping({"/", "/index"})
@@ -85,13 +83,15 @@ public class UserController {
 
     @GetMapping("admin/users")
     @ResponseBody
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.showAll(), HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        return new ResponseEntity<>(userService.showAll().stream().map(userDtoMapper::map)
+               .collect(Collectors.toList()), HttpStatus.OK);
+
     }
 
     @GetMapping("/admin/edit")
     public String showEditUserPage(@RequestParam("id") Long id, Model model) {
-        User user = userService.getById(id);
+        User user = userService.getById(id).orElse(new User());
         model.addAttribute("user", user);
         return "/admin/edit";
     }

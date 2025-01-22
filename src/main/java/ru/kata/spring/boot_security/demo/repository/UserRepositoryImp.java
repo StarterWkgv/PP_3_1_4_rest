@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.dao;
+package ru.kata.spring.boot_security.demo.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UserDaoImp implements UserDao {
+public class UserRepositoryImp implements UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public List<User> showAll() {
+    public List<User> findAll() {
         return entityManager.createQuery("select distinct u from User u join fetch u.roles", User.class)
                 .getResultList();
     }
@@ -26,7 +26,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void delete(long id) {
-        entityManager.remove(getById(id));
+        getById(id).ifPresent(entityManager::remove);
     }
 
     @Override
@@ -40,11 +40,12 @@ public class UserDaoImp implements UserDao {
         if (!user.getPassword().isEmpty()) {
             u.setPassword(user.getPassword());
         }
+        entityManager.flush();
     }
 
     @Override
-    public User getById(long id) {
-        return entityManager.find(User.class, id);
+    public Optional<User> getById(long id) {
+        return Optional.ofNullable(entityManager.find(User.class, id));
     }
 
     @Override

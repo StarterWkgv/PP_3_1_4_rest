@@ -21,7 +21,7 @@ const disableFields = disable => {
         modalFields.forEach((v, k) => {
             if (k === "password") {
                 v.style.display = "none";
-                modal.querySelector("[for='password']").style.display = "none";
+                v.previousElementSibling.style.display = "none";
                 return;
             }
             v.disabled = true;
@@ -32,7 +32,7 @@ const disableFields = disable => {
         if (k === "id") return;
         if (k === "password") {
             v.style.display = "block";
-            modal.querySelector("[for='password']").style.display = "block";
+            v.previousElementSibling.style.display = "block";
             return;
         }
         v.disabled = false;
@@ -91,13 +91,12 @@ document.getElementById("modal-close")
 document.getElementById("modal-delete")
     .addEventListener("click", e => {
         let id = modalFields.get("id");
-        fetch('/admin/users' + '?id=' + id.value, {
+        const reqHeaders = new Headers();
+        reqHeaders.append(csrfHeader,csrfValue);
+        reqHeaders.append('Content-Type', 'application/json',)
+        fetch(`/admin/users?id=${id.value}`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                [csrfHeader]: csrfValue
-            },
-            body: ''
+            headers: reqHeaders,
         })
             .then(resp => {
                 if(resp.ok){
