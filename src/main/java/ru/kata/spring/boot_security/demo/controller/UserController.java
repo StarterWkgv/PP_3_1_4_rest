@@ -74,20 +74,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/admin/users")
-    @ResponseBody
-    public ResponseEntity<HttpStatus> deleteUser(@RequestParam("id") Long id) {
-        userService.delete(id);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @GetMapping("admin/users")
-    @ResponseBody
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        return new ResponseEntity<>(userService.showAll().stream().map(userDtoMapper::map)
-               .collect(Collectors.toList()), HttpStatus.OK);
-
-    }
 
     @GetMapping("/admin/edit")
     public String showEditUserPage(@RequestParam("id") Long id, Model model) {
@@ -96,13 +82,13 @@ public class UserController {
         return "/admin/edit";
     }
 
-    @PostMapping("/admin/edit")
-    public String editUser(@RequestParam("id") Long id,
-                           @ModelAttribute("user") @Valid User user, BindingResult br) {
-        if (br.hasErrors()) {
-            return "/admin/edit";
-        }
-        userService.update(user, id);
-        return "redirect:/admin";
-    }
+//    @PostMapping("/admin/edit")
+//    public String editUser(@RequestParam("id") Long id,
+//                           @ModelAttribute("user") @Valid User user, BindingResult br) {
+//        if (br.hasErrors()) {
+//            return "/admin/edit";
+//        }
+//        userService.update(user, id);
+//        return "redirect:/admin";
+//    }
 }

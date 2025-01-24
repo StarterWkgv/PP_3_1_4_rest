@@ -24,7 +24,7 @@ public class UserDto {
     @NotEmpty(message = "The field should not be empty")
     private Set<String> roles;
 
-    @NotEmpty(message = "The field should not be empty")
+//    @NotEmpty(message = "The field should not be empty")
     private String password;
 
     public UserDto() {
@@ -94,5 +94,18 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

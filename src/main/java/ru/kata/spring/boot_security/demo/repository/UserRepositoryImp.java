@@ -25,8 +25,11 @@ public class UserRepositoryImp implements UserRepository {
     }
 
     @Override
-    public void delete(long id) {
-        getById(id).ifPresent(entityManager::remove);
+    public boolean delete(long id) {
+        return getById(id).map(user -> {
+            entityManager.remove(user);
+            return true;
+        }).orElse(false);
     }
 
     @Override

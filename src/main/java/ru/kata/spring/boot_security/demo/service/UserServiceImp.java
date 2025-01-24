@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
+import ru.kata.spring.boot_security.demo.mapper.UserDtoMapper;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.model.User;
 
@@ -14,13 +16,14 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class UserServiceImp implements UserService
-        , UserDetailsService {
+public class UserServiceImp implements UserService, UserDetailsService {
     private final UserRepository userRepository;
+    private final UserDtoMapper userDtoMapper;
     private final PasswordEncoder encoder;
 
-    public UserServiceImp(UserRepository userRepository, PasswordEncoder encoder) {
+    public UserServiceImp(UserRepository userRepository, UserDtoMapper userDtoMapper, PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.userDtoMapper = userDtoMapper;
         this.encoder = encoder;
     }
 
@@ -38,15 +41,18 @@ public class UserServiceImp implements UserService
 
     @Transactional
     @Override
-    public void delete(long id) {
-        userRepository.delete(id);
+    public boolean delete(long id) {
+        return userRepository.delete(id);
     }
 
     @Transactional
     @Override
-    public void update(User user, long id) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.update(user, id);
+    public boolean update(UserDto dto, long id) {
+        return getById(id).map(user -> {
+            userRepository.update(userDtoMapper.copy(dto, user), id);
+            return true;
+        }).orElse(false);
+
     }
 
     @Override

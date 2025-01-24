@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "role")
-public class Role implements GrantedAuthority, Comparable {
+public class Role implements GrantedAuthority, Comparable<Role> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
@@ -25,7 +25,6 @@ public class Role implements GrantedAuthority, Comparable {
         this.id = id;
         this.role = role;
     }
-
 
     public int getId() {
         return id;
@@ -67,7 +66,7 @@ public class Role implements GrantedAuthority, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.role.ordinal() - ((Role) o).getRole().ordinal();
+    public int compareTo(Role o) {
+        return this.role.ordinal() - o.getRole().ordinal();
     }
 }

@@ -46,25 +46,33 @@
             <div id="modal-fields" class="form-new">
                 <label for="id">Id</label>
                 <input type="text" id="id" value="" disabled>
+                <div class="error" data-name = "id"></div>
+
                 <label for="firstName">First name</label>
                 <input type="text" id="firstName" value="">
+                <div class="error" data-name = "firstName"></div>
 
                 <label for="lastName">Last name</label>
                 <input type="text" id="lastName" value="">
+                <div class="error" data-name = "lastName"></div>
 
                 <label for="age">Age</label>
                 <input type="number" min="0" max="127" id="age" required pattern='\d*' value="">
+                <div class="error" data-name = "age"></div>
 
                 <label for="email">Email</label>
                 <input type="text" id="email" value="">
+                <div class="error" data-name = "email"></div>
 
                 <label for="password">Password</label>
                 <input type="text" id="password" value="">
+                <div class="error" data-name = "password"></div>
 
-                <label for="role">Role</label>
-                <select id="role" class="custom-select" multiple>
+                <label for="roles">Role</label>
+                <select id="roles" class="custom-select" multiple>
                     <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
                 </select>
+                <div class="error" data-name = "roles"></div>
 
             </div>
         </div>

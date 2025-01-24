@@ -30,7 +30,7 @@
             <td data-name="lastName" th:text="${user.getLastName()}"></td>
             <td data-name="age" th:text="${user.getAge()}"></td>
             <td data-name="email" th:text="${user.getEmail()}"></td>
-            <td data-name="role">
+            <td data-name="roles">
                     <span th:each="auth : ${user.getAuthorities()}"
                           th:text="|${auth.getAuthority()} |"></span>
             </td>
