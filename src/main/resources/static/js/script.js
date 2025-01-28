@@ -1,4 +1,4 @@
-// (function(){
+(function(){
 const modal = document.querySelector(".modal-container");
 const csrfValue = document.querySelector("[name=_csrf]").value;
 const csrfHeader = "X-CSRF-TOKEN";
@@ -6,47 +6,57 @@ const modalFields = new Map();
 const errorFields = new Map();
 let errorObj = null;
 
-modal.querySelectorAll("[data-name]").forEach(node => errorFields.set(node.dataset.name, node));
+modal.querySelectorAll("[data-name]")
+    .forEach(node => errorFields.set(node.dataset.name, node));
 
 document.getElementById("modal-fields")
-    .querySelectorAll("input, select").forEach(node => modalFields.set(node.id, node));
+    .querySelectorAll("input, select")
+    .forEach(node => modalFields.set(node.id, node));
+
+const showElement = e => e.style.display = "block";
+const hideElement = e => e.style.display = "none";
 
 const clearErrorFields = (ef) => ef.forEach((v, k) => {
-    v.style.display = "none";
+    hideElement(v);
     v.textContent = "";
     errorObj = null;
 });
 
 const showModal = (m, show) => {
     if (!show) {
-        m.style.display = "none";
+        hideElement(m);
         return;
     }
     clearErrorFields(errorFields)
-    m.style.display = "block";
+    showElement(m);
 };
 
 const disableFields = disable => {
     if (disable) {
         modalFields.forEach((v, k) => {
             if (k === "password") {
-                v.style.display = "none";
-                v.previousElementSibling.style.display = "none";
+                hideElement(v);
+                hideElement(v.previousElementSibling);
                 return;
             }
             v.disabled = true;
         });
+        showElement(modal.querySelector("#modal-delete"));
+        hideElement(modal.querySelector("#modal-edit"));
         return;
     }
     modalFields.forEach((v, k) => {
         if (k === "id") return;
         if (k === "password") {
-            v.style.display = "block";
-            v.previousElementSibling.style.display = "block";
+            showElement(v);
+            showElement(v.previousElementSibling);
             return;
         }
         v.disabled = false;
-    })
+    });
+
+    hideElement(modal.querySelector("#modal-delete"));
+    showElement(modal.querySelector("#modal-edit"));
 }
 
 const fillInputs = (row) => {
@@ -61,7 +71,6 @@ const fillInputs = (row) => {
             modalField.value = n.textContent;
         }
     })
-    // selectedOptions
 }
 
 const updateTable = async () => {
@@ -102,7 +111,6 @@ const fetchAndUpdate = (met, readData) => {
             const reqHeaders = new Headers();
             reqHeaders.append(csrfHeader, csrfValue);
             reqHeaders.append('Content-Type', 'application/json',);
-            console.log(readData ? readData() : '');
             const response = await fetch(`/api/users/${id.value}`,
                 {
                     method: met,
@@ -116,15 +124,14 @@ const fetchAndUpdate = (met, readData) => {
                     clearErrorFields(errorFields);
                     await updateTable();
                 } catch (e) {
-                    console.log("Couldn't update the table");
+                    console.error("Couldn't update the table");
                 }
             } else if (response.status === 400) {
                 errorObj = await response.json();
                 if (errorObj) {
-                    console.log(errorObj);
                     for (let i in errorObj) {
                         errorFields.get(i).textContent = errorObj[i];
-                        errorFields.get(i).style.display = "block";
+                        showElement(errorFields.get(i))
                     }
                 } else {
                     console.error(response.status, ` couldn't perform ${met} operation`);
@@ -147,40 +154,30 @@ const readFields = () => {
     });
     return JSON.stringify(user);
 };
-//edit / delete event handler
+
 document.getElementById("info").addEventListener("click", evt => {
 
-    //edit handler
     if (evt.target.classList.contains("button-edit")) {
         showModal(modal, true);
         fillInputs(evt.target.parentElement.parentElement);
         disableFields(false);
     }
 
-    //delete handler
     if (evt.target.classList.contains("button-delete")) {
         showModal(modal, true);
         fillInputs(evt.target.parentElement.parentElement);
         disableFields(true);
-
     }
-
 });
 
-//hide modal by click
 modal.addEventListener("click", evt => {
     if (evt.target.classList.contains("modal-container") || (evt.target.id === "modal-cross") || (evt.target.id === "modal-close")) {
         showModal(modal, false);
     }
 });
 
-// document.getElementById("modal-cross").addEventListener("click", () => showModal(modal, false));
-//
-// document.getElementById("modal-close").addEventListener("click", () => showModal(modal, false));
-
 document.getElementById("modal-delete").addEventListener("click", fetchAndUpdate("DELETE"));
 
 document.getElementById("modal-edit").addEventListener("click", fetchAndUpdate("PUT", readFields));
 
-
-// })();
+})();

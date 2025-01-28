@@ -48,6 +48,6 @@ public class UserDtoMapper implements Mapper<User, UserDto> {
         if (!from.getPassword().isBlank()) {
             to.setPassword(encoder.encode(from.getPassword()));
         }
-        return Mapper.super.copy(from, to);
+        return to;
     }
 }

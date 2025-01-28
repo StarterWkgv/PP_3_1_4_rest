@@ -1,4 +1,5 @@
 package ru.kata.spring.boot_security.demo.util;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,10 +11,10 @@ import java.util.Optional;
 
 
 @Component
-public class UserEmailValidator implements Validator {
+public class UserEmailPasswordValidator implements Validator {
     private final UserService userService;
 
-    public UserEmailValidator(UserService userService) {
+    public UserEmailPasswordValidator(UserService userService) {
         this.userService = userService;
     }
 
@@ -25,9 +26,13 @@ public class UserEmailValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Optional<User> o = userService.getUserByEmail(((UserDto) target).getEmail());
-        if (o.isPresent() && ((UserDto) target).getId() != o.get().getId() ) {
+        UserDto userDto = (UserDto) target;
+        Optional<User> o = userService.getUserByEmail(userDto.getEmail());
+        if (o.isPresent() && (userDto.getId() != o.get().getId() || userDto.getId() == 0)) {
             errors.rejectValue("email", "", "The user with this email already exists");
+        }
+        if (userDto.getId() == 0 && userDto.getPassword().isBlank()) {
+            errors.rejectValue("password", "", "The password should not be empty");
         }
 
 

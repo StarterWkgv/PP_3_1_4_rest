@@ -8,7 +8,7 @@ import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.exception.UserValidationException;
 import ru.kata.spring.boot_security.demo.mapper.UserDtoMapper;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.util.UserEmailValidator;
+import ru.kata.spring.boot_security.demo.util.UserEmailPasswordValidator;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/users")
 public class AdminRestController {
     private final UserService userService;
-    private final UserEmailValidator userEmailValidator;
+    private final UserEmailPasswordValidator userEmailPasswordValidator;
     private final UserDtoMapper userDtoMapper;
 
-    public AdminRestController(UserService userService, UserEmailValidator userEmailValidator, UserDtoMapper userDtoMapper) {
+    public AdminRestController(UserService userService, UserEmailPasswordValidator userEmailPasswordValidator, UserDtoMapper userDtoMapper) {
         this.userService = userService;
-        this.userEmailValidator = userEmailValidator;
+        this.userEmailPasswordValidator = userEmailPasswordValidator;
         this.userDtoMapper = userDtoMapper;
     }
 
@@ -40,7 +40,8 @@ public class AdminRestController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        return new ResponseEntity<>(userService.showAll().stream().map(userDtoMapper::map)
+        return new ResponseEntity<>(userService.findAll().stream()
+                .map(userDtoMapper::map)
                 .collect(Collectors.toList()), HttpStatus.OK);
 
     }
@@ -48,7 +49,7 @@ public class AdminRestController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto user, BindingResult br) {
 
-        userEmailValidator.validate(user,br);
+        userEmailPasswordValidator.validate(user,br);
         if (br.hasErrors()){
             throw new UserValidationException("user editing failed", br );
         }

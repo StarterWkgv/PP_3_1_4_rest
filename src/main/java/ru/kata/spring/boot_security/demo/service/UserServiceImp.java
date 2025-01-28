@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,15 +29,17 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<User> showAll() {
-        return userRepository.findAll();
+    public List<User> findAll() {
+        return userRepository.findAll().stream()
+                .sorted((a,b)->(int)(a.getId() - b.getId()))
+                .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
-    public void save(User user) {
+    public void save(UserDto user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userRepository.save(userDtoMapper.copy(user, new User()));
     }
 
     @Transactional

@@ -24,7 +24,7 @@ public class UserDto {
     @NotEmpty(message = "The field should not be empty")
     private Set<String> roles;
 
-//    @NotEmpty(message = "The field should not be empty")
+    //    @NotEmpty(message = "The field should not be empty")
     private String password;
 
     public UserDto() {
@@ -108,4 +108,5 @@ public class UserDto {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

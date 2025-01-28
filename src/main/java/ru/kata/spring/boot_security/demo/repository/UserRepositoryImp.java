@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;

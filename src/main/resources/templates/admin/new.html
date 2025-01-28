@@ -21,8 +21,40 @@
                         Add new user
                     </div>
                     <div class="table-content">
-                        <th:block
-                                th:insert="~{fragment/form_fragment::form('form-new', ${user}, ${rolList})}"></th:block>
+                        <div class="form-container">
+
+                            <form th:class="form-new" th:method="POST" th:action="@{/admin}" th:object="${user}">
+                                <label for="firstName">First name</label>
+                                <input type="text" id="firstName" th:field="*{firstName}">
+                                <div class="error-new" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+
+                                <label for="lastName">Last name</label>
+                                <input type="text" id="lastName" th:field="*{lastName}">
+                                <div class="error-new" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+
+                                <label for="age">Age</label>
+                                <input type="number" min="0" max="127" id="age" th:field="*{age}" required pattern='\d*'>
+                                <div class="error-new" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
+                                <label for="email">Email</label>
+                                <input type="text" id="email" th:field="*{email}">
+                                <div class="error-new" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+                                <label for="password">Password</label>
+                                <input type="password" id="password" th:field="*{password}">
+                                <div class="error-new" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+                                <label for="role">Role</label>
+                                <select id="role" class="custom-select" multiple th:field="*{roles}">
+                                    <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
+                                </select>
+                                <div class="error-new" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
+
+                                <div>
+                                    <input class="button button-add_new" type="submit" value="Add new user">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
 

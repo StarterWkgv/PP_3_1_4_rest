@@ -42,5 +42,8 @@ insert into user_role (user_id, role_id) values (8, 2);
 insert into user_role (user_id, role_id) values (9, 2);
 insert into user_role (user_id, role_id) values (10, 2);
 
+insert into user_role (user_id, role_id)
+values (7, 1);
+
 # login: user password: user
 # login: admin password: admin

@@ -104,6 +104,10 @@ caption {
     color: red;
     display: none;
 }
+.error-new {
+    font-size: 10pt;
+    color: red;
+}
 
 .container_new {
     display: flex;
@@ -425,17 +429,27 @@ tbody tr:nth-child(odd) {
 
 .modal-close {
     background-color: #495057;
+    margin-right: 5px;
 }
 
 .modal-caption {
+    font-size: 22px;
+    font-weight: bold;
     border-bottom: solid 1px var(--table-row-border-color);
     display: flex;
     justify-content: space-between;
+    padding: 20px;
 }
 
 .modal-footer {
-    text-align: right;
+    display: flex;
+    justify-content: right;
+    /*text-align: right;*/
     border-top: solid 1px var(--table-row-border-color);
+    padding: 20px;
+}
+.modal-footer > button {
+    display: block;
 }
 
 .button-add_new {

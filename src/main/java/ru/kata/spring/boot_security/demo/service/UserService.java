@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    List<User> showAll();
+    List<User> findAll();
 
-    void save(User user);
+    void save(UserDto user);
 
     boolean delete(long id);
 
