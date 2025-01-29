@@ -47,13 +47,11 @@ public class AdminRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto user, BindingResult br) {
-
         userEmailPasswordValidator.validate(user, br);
         if (br.hasErrors()) {
             throw new UserValidationException("user editing failed", br);
         }
         userService.update(user, id);
-
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 

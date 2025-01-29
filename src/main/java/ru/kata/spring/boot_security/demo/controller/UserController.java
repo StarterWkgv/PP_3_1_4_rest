@@ -62,20 +62,13 @@ public class UserController {
         return "redirect:/admin";
     }
 
-
-    @GetMapping("/admin/edit")
-    public String showEditUserPage(@RequestParam("id") Long id, Model model) {
-        User user = userService.getById(id).orElse(new User());
-        model.addAttribute("user", user);
-        return "/admin/edit";
-    }
-
     @ModelAttribute("rolList")
-    public RoleType[] roleList(@AuthenticationPrincipal UserDetails ud){
+    public RoleType[] roleList(@AuthenticationPrincipal UserDetails ud) {
         return RoleType.values();
     }
+
     @ModelAttribute("details")
-    public UserDetails details(@AuthenticationPrincipal UserDetails ud){
+    public UserDetails details(@AuthenticationPrincipal UserDetails ud) {
         return ud;
     }
 }
