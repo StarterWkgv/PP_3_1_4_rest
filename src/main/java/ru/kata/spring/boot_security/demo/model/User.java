@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
-import com.sun.source.tree.Tree;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

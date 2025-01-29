@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import ru.kata.spring.boot_security.demo.util.RoleType;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "role")

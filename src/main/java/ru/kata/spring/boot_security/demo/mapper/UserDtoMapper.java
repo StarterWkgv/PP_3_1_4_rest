@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.util.RoleType;
 
 import java.util.stream.Collectors;
 
@@ -22,7 +21,6 @@ public class UserDtoMapper implements Mapper<User, UserDto> {
         this.encoder = encoder;
     }
 
-    //    private copy()
     @Override
     public UserDto map(User obj) {
         return new UserDto(obj.getId(),

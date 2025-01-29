@@ -34,7 +34,6 @@ public class AdminRestController {
         if (!userService.delete(id)) {
             return ResponseEntity.notFound().build();
         }
-        ;
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -47,11 +46,11 @@ public class AdminRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto user, BindingResult br) {
+    public ResponseEntity<HttpStatus> editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto user, BindingResult br) {
 
-        userEmailPasswordValidator.validate(user,br);
-        if (br.hasErrors()){
-            throw new UserValidationException("user editing failed", br );
+        userEmailPasswordValidator.validate(user, br);
+        if (br.hasErrors()) {
+            throw new UserValidationException("user editing failed", br);
         }
         userService.update(user, id);
 
@@ -63,9 +62,7 @@ public class AdminRestController {
         Map<String, String> errorMap = new HashMap<>();
         err.getBindingResult()
                 .getFieldErrors()
-                .forEach(e -> {
-                    errorMap.put(e.getField(), e.getDefaultMessage());
-                });
+                .forEach(e -> errorMap.put(e.getField(), e.getDefaultMessage()));
         return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
     }
 }

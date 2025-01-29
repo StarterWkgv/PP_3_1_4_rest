@@ -21,6 +21,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserEmailPasswordValidator userEmailValidator;
+
     public UserController(UserService userService, UserEmailPasswordValidator userEmailPasswordValidator) {
         this.userService = userService;
         this.userEmailValidator = userEmailPasswordValidator;
@@ -34,7 +35,6 @@ public class UserController {
     @GetMapping("/user")
     public String showUser(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("users", Collections.singleton(user));
-        model.addAttribute("details", user);
         return "/user/user";
     }
 
@@ -42,24 +42,18 @@ public class UserController {
     public String showAllUsersPage(Model model, @AuthenticationPrincipal UserDetails ud) {
         List<User> list = userService.findAll();
         model.addAttribute("users", list);
-        model.addAttribute("details", ud);
-        model.addAttribute("rolList", RoleType.values());
         return "/admin/admin";
     }
 
     @GetMapping("/admin/new")
     public String showNewUserPage(Model model, @ModelAttribute("user") UserDto user,
                                   @AuthenticationPrincipal UserDetails ud) {
-        model.addAttribute("details", ud);
-        model.addAttribute("rolList", RoleType.values());
         return "/admin/new";
     }
 
     @PostMapping("/admin")
     public String addNewUser(Model model, @ModelAttribute("user") @Valid UserDto user, BindingResult br,
                              @AuthenticationPrincipal UserDetails ud) {
-        model.addAttribute("details", ud);
-        model.addAttribute("rolList", RoleType.values());
         userEmailValidator.validate(user, br);
         if (br.hasErrors()) {
             return "/admin/new";
@@ -76,13 +70,12 @@ public class UserController {
         return "/admin/edit";
     }
 
-//    @PostMapping("/admin/edit")
-//    public String editUser(@RequestParam("id") Long id,
-//                           @ModelAttribute("user") @Valid User user, BindingResult br) {
-//        if (br.hasErrors()) {
-//            return "/admin/edit";
-//        }
-//        userService.update(user, id);
-//        return "redirect:/admin";
-//    }
+    @ModelAttribute("rolList")
+    public RoleType[] roleList(@AuthenticationPrincipal UserDetails ud){
+        return RoleType.values();
+    }
+    @ModelAttribute("details")
+    public UserDetails details(@AuthenticationPrincipal UserDetails ud){
+        return ud;
+    }
 }

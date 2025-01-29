@@ -6,7 +6,6 @@
     --table-head-color: #f7f7f7;
     --table-row-color: #f2f2f2;
     --table-row-border-color: #ebeef1;
-    /*--table-row-border-color: red;*/
     --button-edit-color: #17a2b8;
     --button-delete-color: #dc3545;
     --button-not-active: #007aff;
@@ -249,13 +248,9 @@ table {
     display: flex;
 }
 
-
 .tab-content {
     border: 2px solid var(--table-row-border-color);
     border-radius: 4px;
-}
-
-.tab-content {
     display: block;
     flex-direction: column;
     background-color: white;
@@ -329,7 +324,6 @@ input[type='number']:focus {
     box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
     color: #495057;
     background-color: #fff;
-    outline: 0;
 }
 
 .logout_button {
@@ -347,8 +341,7 @@ input[type='number']:focus {
 
 
 .table-content {
-    /*display: flex;*/
-    /*justify-content: center;*/
+    font-size: inherit;
 }
 
 tbody tr:nth-child(odd) {
@@ -413,6 +406,7 @@ tbody tr:nth-child(odd) {
 
 .modal-cross {
     display: block;
+    font-size: 20px;
     color: #495057;
     background-color: white;
     border: none;
@@ -444,7 +438,6 @@ tbody tr:nth-child(odd) {
 .modal-footer {
     display: flex;
     justify-content: right;
-    /*text-align: right;*/
     border-top: solid 1px var(--table-row-border-color);
     padding: 20px;
 }
