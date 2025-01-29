@@ -7,6 +7,7 @@
     let errorObj = null;
     const showElement = e => e.style.display = "block";
     const hideElement = e => e.style.display = "none";
+    const setModalCaption = c => modal.querySelector("#modal-caption").textContent = c;
 
     modal.querySelectorAll("[data-name]")
         .forEach(node => errorFields.set(node.dataset.name, node));
@@ -33,8 +34,8 @@
         showElement(m);
     };
 
-    const disableFields = disable => {
-        if (disable) {
+    const convertModal = deleteUser => {
+        if (deleteUser) {
             modalFields.forEach((v, k) => {
                 if (k === "password") {
                     hideElement(v);
@@ -43,6 +44,7 @@
                 }
                 v.disabled = true;
             });
+            setModalCaption("Delete user");
             showElement(modal.querySelector("#modal-delete"));
             hideElement(modal.querySelector("#modal-edit"));
             return;
@@ -56,7 +58,7 @@
             }
             v.disabled = false;
         });
-
+        setModalCaption("Edit user");
         hideElement(modal.querySelector("#modal-delete"));
         showElement(modal.querySelector("#modal-edit"));
     }
@@ -162,13 +164,13 @@
         if (evt.target.classList.contains("button-edit")) {
             showModal(modal, true);
             fillInputs(evt.target.parentElement.parentElement);
-            disableFields(false);
+            convertModal(false);
         }
 
         if (evt.target.classList.contains("button-delete")) {
             showModal(modal, true);
             fillInputs(evt.target.parentElement.parentElement);
-            disableFields(true);
+            convertModal(true);
         }
     });
 

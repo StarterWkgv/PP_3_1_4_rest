@@ -43,7 +43,6 @@ public class UserRepositoryImp implements UserRepository {
         if (!user.getPassword().isEmpty()) {
             u.setPassword(user.getPassword());
         }
-        entityManager.flush();
     }
 
     @Override
