@@ -3,6 +3,7 @@
 <head>
     <title>Admin panel</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="icon" href="/ico/favicon.ico">
 </head>
 <body th:with="uri=${#httpServletRequest.getRequestURI()}, adminPanel=${uri.contains('admin')}">
 <th:block th:insert="~{fragment/header_frag::header(${ details })}"></th:block>

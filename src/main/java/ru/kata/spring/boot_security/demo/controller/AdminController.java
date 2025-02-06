@@ -27,7 +27,7 @@ public class AdminController {
     public String showAllUsersPage(Model model) {
         List<User> list = userService.findAll();
         model.addAttribute("users", list);
-        return "/admin/admin_b";
+        return "/admin/admin";
     }
 
     @GetMapping("/new")
@@ -42,7 +42,7 @@ public class AdminController {
             return "/admin/new";
         }
         userService.save(user);
-        return "redirect:/admin_b";
+        return "redirect:/admin";
     }
 
 }
