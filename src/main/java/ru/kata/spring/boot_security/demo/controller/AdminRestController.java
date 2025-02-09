@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
+import ru.kata.spring.boot_security.demo.exception.UserNotFoundException;
 import ru.kata.spring.boot_security.demo.exception.UserValidationException;
 import ru.kata.spring.boot_security.demo.mapper.UserDtoMapper;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/admin/users")
 public class AdminRestController {
     private final UserService userService;
     private final UserEmailPasswordValidator userEmailPasswordValidator;
@@ -37,6 +38,12 @@ public class AdminRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> findUser(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(userService.getById(id)
+                .map(userDtoMapper::map)
+                .orElseThrow(()->new UserNotFoundException("user not found")),HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return new ResponseEntity<>(userService.findAll().stream()
@@ -62,5 +69,9 @@ public class AdminRestController {
                 .getFieldErrors()
                 .forEach(e -> errorMap.put(e.getField(), e.getDefaultMessage()));
         return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> userNotFoundExceptionHandler(UserNotFoundException err) {
+       return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

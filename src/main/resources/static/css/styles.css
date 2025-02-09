@@ -1,5 +1,5 @@
 :root {
-    --header-height: 60px;
+    /* --header-height: 60px;
 
     --info-color: #f8f9fa;
     --header-color: #353a40;
@@ -11,36 +11,26 @@
     --button-not-active: #007aff;
     --logout-link-color: #91979f;
     --button-add-new-color: #218838;
-    --input-disabled-color: #e9ecef;
+    --input-disabled-color: #e9ecef; */
+
     --img-path-admin: url("/img/2_admin-page.png");
-    --img-path-new:url("/img/3_add-new-user.png");
+    --img-path-new: url("/img/3_add-new-user.png");
     --img-path-user: url("/img/6_user-page.png");
     --img-path-modal-delete: url("/img/5_delete-user.png");
+    --img-path-modal-edit: url("/img/4_edit-user.png");
 
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-
-*::before,
-*::after {
-    box-sizing: border-box;
-}
 
 html {
+    font-size: 20px;
     overflow-y: scroll;
 }
 
-html, body {
-    display: flex;
-    font-size: 12px;
-    flex-direction: column;
-    font-family: system-ui, Arial;
+.vh-100 {
+    height: 100vh;
 }
+
 /*******************************************/
 /*TODO: remove*/
 .podgonka {
@@ -50,7 +40,7 @@ html, body {
     height: 1210px;
     inset: 0;
     z-index: 9999;
-    background-image: var(--img-path-modal-delete);
+    background-image: var(--img-path-admin);
     background-size: cover;
     border: none;
     margin-top: -107px;
@@ -64,7 +54,7 @@ html, body {
 }
 
 .podgonka-user {
-    background-image: var(--img-path-user) ;
+    background-image: var(--img-path-user);
 }
 
 .podgonka-caption {
@@ -77,386 +67,55 @@ html, body {
 }
 
 /*************************************************/
-
-
-.bold {
-    font-weight: bold;
-}
-
-h1 {
-    font-size: 3.5rem;
-}
-
-h2 {
-    font-size: 1.8rem;
-}
-
-caption {
-    font-size: 40px;
-}
-
-.space {
-    margin-right: 7px;
-}
-
-.error {
-    font-size: 10pt;
-    color: red;
-    display: none;
-}
-.error-new {
-    font-size: 10pt;
-    color: red;
-}
-
-.container_new {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: var(--header-color);
-    color: white;
-    width: 100vw;
-    height: var(--header-height);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 24px;
-    padding-right: 10px;
-    font-size: 25px;
-}
-
-.panels-container {
-    width: 100%;
-    margin-top: var(--header-height);
-    height: calc(100vh - var(--header-height));
-    display: flex;
-    align-items: stretch;
-}
-
-.left-panel {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    padding-top: 21px;
-    position: fixed;
-    top: 60px;
-    left: 0;
-    height: 100%;
-    width: 280px;
-}
-
-.capitalize::first-letter {
-    text-transform: uppercase;
-}
-
-.right-panel {
-    margin-left: 280px;
-    width: calc(100% - 280px);
-    background-color: var(--info-color);
-}
-
-.info-container {
-    margin-top: 16px;
-    margin-left: 36px;
-    margin-right: 40px;
-}
-
-.table_container {
-    background-color: white;
-    margin: 26px 25px 41px;
-}
-
-
-th {
-    font-size: 20px;
-    text-align: left;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    vertical-align: top;
-    padding-left: 14px;
-}
-
-td {
-    padding-top: 18px;
-    padding-bottom: 27px;
-    text-align: left;
-    vertical-align: top;
-    font-size: 20px;
-    padding-left: 14px;
-}
-
-td, th {
-    border-top: 1px solid var(--table-row-border-color);
-
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.logout_link {
-    display: inline-block;
-    color: var(--logout-link-color);
-
-}
-
-.button-delete {
-    background-color: var(--button-delete-color);
-}
-
-.button-edit {
-    background-color: var(--button-edit-color);
-}
-
-.button {
-    color: white;
-    display: inline;
-    width: fit-content;
-    cursor: pointer;
-    border: none;
-    padding: 4px 11px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 20px;
-
-}
-
-
-.button_switch_panel {
-    display: block;
-    text-decoration: none;
-    color: var(--button-not-active);
-    padding: 11px 19px;
-    border-radius: 4px;
-    margin-right: 2px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.checked_panel {
-    background-color: var(--button-not-active);
-    color: white;
-}
-
-.tabs {
-    display: flex;
-}
-
-.tab-content {
-    border: 2px solid var(--table-row-border-color);
-    border-radius: 4px;
-    display: block;
-    flex-direction: column;
-    background-color: white;
-}
-
-.table-caption {
-    padding: 13px 25px 13px;
-    font-size: 25px;
-    font-weight: 500;
-    border-bottom: 1px solid var(--table-row-border-color);
-    background-color: var(--table-head-color);
-}
-
-.form-container {
+/* .form-container {
     width: 100%;
     display: flex;
     justify-content: center;
 }
-
 .form-new {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} */
+.user {
+    display: flex;
+    justify-content: center;
+}
+
+.user-form {
+    width: 30%;
+    margin-bottom: 1.1rem;
+}
+
+.user-form > * :not(label, button) {
+    width: 100%;
+}
+
+.user-form>label {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.user-form>input,
+select {
+    margin-bottom: 1.05rem;
+}
+
+.h-select {
+    height: 3rem !important;
+}
+
+.user .user-form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.form-new > label {
-    display: block;
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 27px;
-    margin-bottom: 2px;
+.mdl-lg {
+    max-width: 623px;
 }
 
-.form-new > input {
-    font-size: 20px;
-    width: 380px;
-    height: 38px;
-    margin-bottom: -5px;
-    padding-left: 10px;
-}
-
-.form-new > select {
-    width: 380px;
-    font-size: 18px;
-    padding-top: 7px;
-    padding-left: 12px;
-    height: 61px;
-}
-
-.form-new > select > option {
-    margin-bottom: 2px;
-}
-
-select,
-input[type='text'],
-input[type='password'],
-input[type='number'] {
-    border-radius: 4px;
-    transition: border-color 0.3s;
-    outline: none;
-    border: 1px solid #ced4da;
-}
-
-select:focus,
-input[type='text']:focus,
-input[type='password']:focus,
-input[type='number']:focus {
-
-    border-color: #80bdff;
-    outline: none;
-    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
-    color: #495057;
-    background-color: #fff;
-}
-
-.logout_button {
-    color: var(--logout-link-color);
-    display: inline;
-    width: fit-content;
-    cursor: pointer;
-    background-color: var(--header-color);
-    border: none;
-    font-size: 20px;
-    padding: 8px 4px;
-    margin-right: 30px;
-    margin-top: 4px;
-}
-
-
-.table-content {
-    font-size: inherit;
-}
-
-tbody tr:nth-child(odd) {
-    background-color: var(--table-row-color);
-}
-
-
-.info-caption {
-    font-weight: 600;
-    font-size: 50px;
-    margin-bottom: 18px;
-}
-
-.tab {
-    font-size: 20px;
-    padding: 10px 21px 13px;
-    text-decoration: none;
-    display: block;
-    border: none;
-    background-color: var(--info-color);
-    color: var(--button-not-active);
-
-}
-
-.tab--active {
-    border: 1px solid var(--table-row-border-color);
-    border-bottom: none;
-    color: black;
-    border-radius: 6px 6px 0 0;
-    background-color: white;
-}
-
-.modal-container {
-    display: none;
-    inset: 0;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9998;
-}
-
-.modal-window {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: 30%;
-    bottom: initial;
-    border: 1px solid rgb(204, 204, 204);
-    background: white;
-    overflow: auto;
-    border-radius: 4px;
-    outline: none;
-    padding: 0;
-    max-height: 100%;
-    z-index: 9999;
-    width: 35%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-
-}
-
-.modal-cross {
-    display: block;
-    font-size: 20px;
-    color: #495057;
-    background-color: white;
-    border: none;
-
-}
-
-.modal-edit {
-    background-color: var(--button-not-active);
-}
-
-.modal-delete {
-    background-color: var(--button-delete-color);
-}
-
-.modal-close {
-    background-color: #495057;
-    margin-right: 5px;
-}
-
-.modal-caption {
-    font-size: 22px;
-    font-weight: bold;
-    border-bottom: solid 1px var(--table-row-border-color);
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: right;
-    border-top: solid 1px var(--table-row-border-color);
-    padding: 20px;
-}
-.modal-footer > button {
-    display: block;
-}
-
-.button-add_new {
-    background-color: var(--button-add-new-color);
-
-    margin-top: 19px;
-    font-size: 25px;
-    padding: 17px 20px 13px;
-}
-
-input[type="text"]:disabled,
-input[type="number"]:disabled,
-select[type="number"]:disabled
-{
-    background-color: var(--input-disabled-color);
+.mdl-width {
+    width: 44%;
+    margin-bottom: 1rem;
 }

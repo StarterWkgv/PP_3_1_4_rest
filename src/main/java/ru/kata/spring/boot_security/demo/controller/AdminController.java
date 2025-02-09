@@ -27,7 +27,7 @@ public class AdminController {
     public String showAllUsersPage(Model model) {
         List<User> list = userService.findAll();
         model.addAttribute("users", list);
-        return "/admin/admin";
+        return "/page";
     }
 
     @GetMapping("/new")
