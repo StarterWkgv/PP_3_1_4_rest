@@ -42,7 +42,7 @@ public class AdminRestController {
     public ResponseEntity<UserDto> findUser(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userService.getById(id)
                 .map(userDtoMapper::map)
-                .orElseThrow(()->new UserNotFoundException("user not found")),HttpStatus.OK);
+                .orElseThrow(()->new UserNotFoundException("User not found")),HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
@@ -65,6 +65,7 @@ public class AdminRestController {
     @ExceptionHandler(UserValidationException.class)
     public ResponseEntity<Map<String, String>> notValidExceptionHandler(UserValidationException err) {
         Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("isValidation", "true");
         err.getBindingResult()
                 .getFieldErrors()
                 .forEach(e -> errorMap.put(e.getField(), e.getDefaultMessage()));

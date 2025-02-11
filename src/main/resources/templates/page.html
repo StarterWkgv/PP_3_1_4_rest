@@ -131,41 +131,40 @@
                                     <!-- Form add new user -->
                                     <div class="user pt-3">
 
-                                        <div id="user-form " class="user-form mt-1">
+                                        <div id="addNewUser" class="user-form mt-1">
 
                                             <label for="newFirstName">First name</label>
-                                            <input type="text" class="form-control form-control-sm" id="newFirstName"
+                                            <input data-name="firstName"  type="text" class="form-control form-control-sm" id="newFirstName"
                                                 value="">
                                             <div class="error" data-error="firstName"></div>
 
                                             <label for="newLastName">Last name</label>
-                                            <input type="text" class="form-control form-control-sm" id="newLastName"
+                                            <input data-name="lastName" type="text" class="form-control form-control-sm" id="newLastName"
                                                 value="">
                                             <div class="error" data-error="lastName"></div>
 
                                             <label for="newAge">Age</label>
-                                            <input type="number" class="form-control form-control-sm" min="0" max="127"
+                                            <input data-name="age" type="number" class="form-control form-control-sm" min="0" max="127"
                                                 id="newAge" required pattern='\d*' value="">
                                             <div class="error" data-error="age"></div>
 
                                             <label for="newEmail">Email</label>
-                                            <input type="text" class="form-control form-control-sm" id="newEmail"
+                                            <input data-name="email" type="text" class="form-control form-control-sm" id="newEmail"
                                                 value="">
                                             <div class="error" data-error="email"></div>
 
                                             <label for="newPassword">Password</label>
-                                            <input type="password" class="form-control form-control-sm" id="newPassword"
+                                            <input data-name="password" type="password" class="form-control form-control-sm" id="newPassword"
                                                 value="">
                                             <div class="error" data-error="password"></div>
 
                                             <label for="newRoles">Role</label>
-                                            <select id="newRoles" class="form-control h-select " multiple>
+                                            <select data-name="roles" id="newRoles" class="form-control h-select " multiple>
                                                 <option th:each="r : ${rolList}" th:value="${r.name()}"
                                                     th:text="${r.name()}"></option>
                                             </select>
                                             <div class="error" data-error="roles"></div>
-                                            <button id="add-new-user" type="button" class="btn btn-success btn-lg">Add
-                                                new user</button>
+                                            <button id="add-new-user" type="button" class="btn btn-success btn-lg">Add new user</button>
 
                                         </div>
                                     </div>
@@ -262,7 +261,7 @@
                             <div class="error" data-error="email"></div>
 
                             <label for="deleteRoles">Role</label>
-                            <select id="deleteRoles" class="form-control h-select mb-0" data-name="role" multiple disabled>
+                            <select id="deleteRoles" class="form-control h-select mb-0" data-name="roles" multiple disabled>
                                 <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
                             </select>
                             <div class="error" data-error="roles"></div>
@@ -301,8 +300,8 @@
                         <div id="modal-edit-fields" class="user-form mdl-width">
 
                             <label for="editId">ID</label>
-                            <input type="text" class="form-control form-control-sm" id="editId" value="" disabled>
-                            <div class="invalid-tooltip" data-error="id">Id error</div>
+                            <input type="text" class="form-control form-control-sm" id="editId" data-name="id" value="" disabled>
+                            <div class="error" data-error="id">Id error</div>
 
                             <label for="editFirstName">First name</label>
                             <input type="text" class="form-control form-control-sm" id="editFirstName"
@@ -330,7 +329,7 @@
                             <div class="error" data-error="password"></div>
 
                             <label for="editRoles">Role</label>
-                            <select id="editRoles" class="form-control h-select mb-0" data-name="role" multiple>
+                            <select id="editRoles" class="form-control h-select mb-0" data-name="roles" multiple>
                                 <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
                             </select>
                             <div class="error" data-error="roles"></div>
