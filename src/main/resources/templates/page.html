@@ -67,7 +67,7 @@
                                 <div class="px-3 py-2 border-bottom">
                                     <h5 class="m-1">All users</h5>
                                 </div>
-                                <div class="bg-white rounded px-3 pt-3 pb-4">
+                                <div class="bg-white rounded pl-3 pr-4 pt-3 pb-4">
 
                                     <table id="usersTable" class="table table-striped m-1 mb-2">
                                         <thead>
@@ -150,12 +150,12 @@
 
                                             <label for="newEmail">Email</label>
                                             <input data-name="email" type="text" class="form-control form-control-sm" id="newEmail"
-                                                value="">
+                                                value="" autocomplete="off">
                                             <div class="error" data-error="email"></div>
 
                                             <label for="newPassword">Password</label>
                                             <input data-name="password" type="password" class="form-control form-control-sm" id="newPassword"
-                                                value="">
+                                                value="" autocomplete="off">
                                             <div class="error" data-error="password"></div>
 
                                             <label for="newRoles">Role</label>
@@ -164,7 +164,7 @@
                                                     th:text="${r.name()}"></option>
                                             </select>
                                             <div class="error" data-error="roles"></div>
-                                            <button id="add-new-user" type="button" class="btn btn-success btn-lg">Add new user</button>
+                                            <button id="button-addNewUser" type="button" class="btn btn-success btn-lg">Add new user</button>
 
                                         </div>
                                     </div>
@@ -297,7 +297,7 @@
                     <!-- edit fields -->
                     <div class="user ">
 
-                        <div id="modal-edit-fields" class="user-form mdl-width">
+                        <div id="modal-edit-fields" class="needs-validation user-form mdl-width">
 
                             <label for="editId">ID</label>
                             <input type="text" class="form-control form-control-sm" id="editId" data-name="id" value="" disabled>
@@ -315,17 +315,17 @@
 
                             <label for="editAge">Age</label>
                             <input type="number" class="form-control form-control-sm" min="0" max="127" id="editAge"
-                                required pattern='\d*' data-name="age" value="">
+                                required pattern='\d{1,3}' data-name="age" value="">
                             <div class="error" data-error="age"></div>
 
                             <label for="editEmail">Email</label>
                             <input type="text" class="form-control form-control-sm" id="editEmail" data-name="email"
-                                value="">
+                                value="" autocomplete="off">
                             <div class="error" data-error="email"></div>
 
                             <label for="editPassword">Password</label>
                             <input type="password" class="form-control form-control-sm" id="editPassword"
-                                data-name="password" value="">
+                                data-name="password" autocomplete="off" value="">
                             <div class="error" data-error="password"></div>
 
                             <label for="editRoles">Role</label>

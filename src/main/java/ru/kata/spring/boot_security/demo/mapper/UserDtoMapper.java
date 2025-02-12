@@ -38,7 +38,7 @@ public class UserDtoMapper implements Mapper<User, UserDto> {
     public User copy(UserDto from, User to) {
         to.setFirstName(from.getFirstName());
         to.setLastName(from.getLastName());
-        to.setAge(from.getAge());
+        to.setAge((byte)from.getAge());
         to.setEmail(from.getEmail());
         to.setRoles(from.getRoles().stream()
                 .map(converter::convert)

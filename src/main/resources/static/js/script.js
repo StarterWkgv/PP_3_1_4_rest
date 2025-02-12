@@ -1,8 +1,8 @@
 (async function () {
     const csrfValue = document.querySelector("[name=_csrf]").value;
     const csrfHeader = "X-CSRF-TOKEN";
-    const modalDelete = document.getElementById("modal-delete");
-    const modalEdit = document.getElementById("modal-edit");
+    const modalDelete = $('#modal-delete');
+    const modalEdit = $('#modal-edit');
     const deleteFields = new Map();
     const editFields = new Map();
     const addNewUserFields = new Map();
@@ -12,20 +12,18 @@
     const showElement = e => e.style.display = "block";
     const hideElement = e => e.style.display = "none";
 
-    document.getElementById("modal-delete").querySelectorAll("[data-name]").forEach(node => {
-        deleteFields.set(node.dataset.name, node);
-    });
-    document.getElementById("modal-edit").querySelectorAll("[data-name]").forEach(node => {
-        editFields.set(node.dataset.name, node);
-        let errorNode = node.nextElementSibling;
-        if (errorNode) errorEdit.set(node.dataset.name, errorNode);
+    const fillMap = (modalId, fieldsMap, errorMap) => {
+        document.getElementById(modalId).querySelectorAll("[data-name]").forEach(node => {
+            fieldsMap.set(node.dataset.name, node);
+            if (!errorMap) return;
+            let errorNode = node.nextElementSibling;
+            if (errorNode) errorMap.set(node.dataset.name, errorNode);
+        })
+    }
 
-    });
-    document.getElementById("addNewUser").querySelectorAll("[data-name]").forEach(node => {
-        addNewUserFields.set(node.dataset.name, node);
-        let errorNode = node.nextElementSibling;
-        if (errorNode) errorAddNewUser.set(node.dataset.name, errorNode);
-    })
+    fillMap("modal-delete", deleteFields);
+    fillMap("modal-edit", editFields, errorEdit);
+    fillMap("addNewUser", addNewUserFields, errorAddNewUser);
 
     const clearErrorFields = (ef) => {
         errorObj = null;
@@ -35,31 +33,49 @@
         });
     }
 
-    const fillInputs = (user, fields) => {
-        if (!user) return;
-        Object.keys(user).forEach(k => {
-            if (k === "password") return;
+    const clearFields = (fields) => {
+        fields.forEach((v, k) => {
             if (k === "roles") {
-                Array.from(fields.get(k).options).forEach(opt => {
-                    opt.selected = user[k].includes(opt.value);
+                Array.from( v.options ).forEach(opt => {
+                    opt.selected = false;
                 })
             } else {
-                fields.get(k).value = user[k];
+                v.value = '';
             }
         })
+    }
+
+    const readFields = fields => {
+        return () => {
+            let user = {};
+            fields.forEach((v, k) => {
+                user[k] = k === "roles" ? Array.from(v.selectedOptions).map(r => r.value) : v.value;
+            });
+            return JSON.stringify(user);
+        }
     };
 
-    $('#modal-delete').on('show.bs.modal', async function (event) {
-        let response = await fetch(`/api/admin/users/${$(event.relatedTarget).data('uid')}`);
-        let user = await response.json();
-        fillInputs(user, deleteFields);
-    });
-    $('#modal-edit').on('show.bs.modal', async function (event) {
-        let response = await fetch(`/api/admin/users/${$(event.relatedTarget).data('uid')}`);
-        let user = await response.json();
-        fillInputs(user, editFields);
-    })
-
+    const fillInputs = fields => {
+        return async (event) => {
+            try {
+                let response = await fetch(`/api/admin/users/${$(event.relatedTarget).data('uid')}`);
+                let user = await response.json();
+                if (!user) return;
+                Object.keys(user).forEach(k => {
+                    if (k === "password") return;
+                    if (k === "roles") {
+                        Array.from(fields.get(k).options).forEach(opt => {
+                            opt.selected = user[k].includes(opt.value);
+                        })
+                    } else {
+                        fields.get(k).value = user[k];
+                    }
+                })
+            } catch (e) {
+                console.error("Couldn't get user data from the server", e);
+            }
+        }
+    };
 
     const updateTable = async () => {
         const getRow = user => {
@@ -89,13 +105,12 @@
             } else {
                 console.error(resp.status, " Couldn't get the list of users")
             }
-
         } catch (e) {
             console.error("Error >>> ", e);
         }
     };
 
-    const fetchAndUpdate = (met, modalFields, errorFields, readData) => {
+    const fetchAndUpdate = (met, modalFields, errorFields, readData, hideModal) => {
         return async () => {
             try {
                 clearErrorFields(errorFields);
@@ -103,7 +118,7 @@
                 const reqHeaders = new Headers();
                 reqHeaders.append(csrfHeader, csrfValue);
                 reqHeaders.append('Content-Type', 'application/json',);
-                const response = await fetch(`/api/users/${id ? id.value : ''}`,
+                const response = await fetch(`/api/admin/users/${id ? id.value : ''}`,
                     {
                         method: met,
                         headers: reqHeaders,
@@ -112,7 +127,7 @@
 
                 if (response.ok) {
                     console.log(response.status);
-                        await updateTable();
+                    await updateTable();
                 } else if (response.status === 400) {
                     errorObj = await response.json();
                     if (errorObj && errorObj["isValidation"]) {
@@ -131,11 +146,44 @@
             } catch (e) {
                 console.error("Error >>> ", e);
             } finally {
-                //TODO: переделать
-                if (!errorObj) showModal(modal, false);
+                if (!errorObj) hideModal();
             }
         }
     };
+
+    const validateAge = e => {
+        try {
+            let v = parseInt(e.target.value);
+            if (v > 127)
+                e.target.value = 127;
+            if (v < 0) e.target.value = 0;
+        } catch (e) {
+            e.target.value = 0;
+        }
+    }
+
+    modalDelete.on('shown.bs.modal', fillInputs(deleteFields));
+    modalEdit.on('shown.bs.modal', fillInputs(editFields));
+    modalEdit.on('hide.bs.modal', () => clearErrorFields(errorEdit));
+
+    $('#nav-newUser-tab').on('hide.bs.tab', () => {
+        clearFields(addNewUserFields);
+        clearErrorFields(errorAddNewUser);
+    });
+
+    document.getElementById("editAge").addEventListener("input", validateAge);
+    document.getElementById("newAge").addEventListener("input", validateAge);
+
+    document.getElementById("button-delete")
+        .addEventListener("click", fetchAndUpdate("DELETE", deleteFields,
+            new Map(), null, () => modalDelete.modal('hide')));
+    document.getElementById("button-edit")
+        .addEventListener("click", fetchAndUpdate("PUT", editFields, errorEdit,
+            readFields(editFields), () => modalEdit.modal('hide')));
+
+    document.getElementById("button-addNewUser")
+        .addEventListener("click", fetchAndUpdate("POST", addNewUserFields, errorAddNewUser,
+            readFields(addNewUserFields), () => $('#nav-users-tab').tab('show')));
 
     await updateTable();
 })()

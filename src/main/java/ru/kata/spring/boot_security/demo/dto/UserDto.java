@@ -15,7 +15,7 @@ public class UserDto {
 
     @Min(value = 0, message = "Age should be greater then 0")
     @Max(value = 127, message = "Age should be less then 128")
-    private byte age;
+    private int age;
 
     @NotEmpty(message = "The field should not be empty")
     @Email(message = "Wrong format")
@@ -64,11 +64,11 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-    public byte getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(byte age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
