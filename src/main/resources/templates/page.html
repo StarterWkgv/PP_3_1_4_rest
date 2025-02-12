@@ -83,37 +83,6 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <!--                                            <tr>-->
-                                    <!--                                                <th scope="row">2</th>-->
-                                    <!--                                                <td>admin</td>-->
-                                    <!--                                                <td>admin</td>-->
-                                    <!--                                                <td>35</td>-->
-                                    <!--                                                <td>admin@mail.ru</td>-->
-                                    <!--                                                <td>ADMIN USER</td>-->
-                                    <!--                                                <td>-->
-                                    <!--                                                    <button type="button" class="btn btn-info px-2 py-1 "-->
-                                    <!--                                                        data-toggle="modal" data-target="#modal-edit">Edit</button>-->
-                                    <!--                                                </td>-->
-                                    <!--                                                <td>-->
-                                    <!--                                                    <button type="button" class="btn btn-danger px-1 py-1"-->
-                                    <!--                                                        data-toggle="modal" data-target="#modal-delete">Delete</button>-->
-                                    <!--                                                </td>-->
-                                    <!--                                            </tr>-->
-                                    <!--                                            <tr>-->
-                                    <!--                                                <th scope="row">3</th>-->
-                                    <!--                                                <td>user</td>-->
-                                    <!--                                                <td>user</td>-->
-                                    <!--                                                <td>30</td>-->
-                                    <!--                                                <td>user@mail.ru</td>-->
-                                    <!--                                                <td>USER</td>-->
-                                    <!--                                                <td>-->
-                                    <!--                                                    <button type="button" class="btn btn-info px-2 py-1">Edit</button>-->
-                                    <!--                                                </td>-->
-                                    <!--                                                <td>-->
-                                    <!--                                                    <button type="button" class="btn btn-danger px-1 py-1"-->
-                                    <!--                                                        data-toggle="modal" data-target="#modal-delete">Delete</button>-->
-                                    <!--                                                </td>-->
-                                    <!--                                            </tr>-->
                                     </tbody>
                                 </table>
 
@@ -133,42 +102,57 @@
 
                                     <div id="addNewUser" class="user-form mt-1">
 
-                                        <label for="newFirstName">First name</label>
-                                        <input data-name="firstName" type="text" class="form-control form-control-sm"
-                                               id="newFirstName"
-                                               value="">
-                                        <div class="error" data-error="firstName"></div>
+                                        <div class="node">
+                                            <label for="newFirstName">First name</label>
+                                            <input data-name="firstName" type="text"
+                                                   class="form-control form-control-sm"
+                                                   id="newFirstName"
+                                                   value="">
+                                            <div class="invalid-tooltip" data-error="firstName"></div>
+                                        </div>
 
-                                        <label for="newLastName">Last name</label>
-                                        <input data-name="lastName" type="text" class="form-control form-control-sm"
-                                               id="newLastName"
-                                               value="">
-                                        <div class="error" data-error="lastName"></div>
+                                        <div class="node">
+                                            <label for="newLastName">Last name</label>
+                                            <input data-name="lastName" type="text" class="form-control form-control-sm"
+                                                   id="newLastName"
+                                                   value="">
+                                            <div class="invalid-tooltip" data-error="lastName"></div>
+                                        </div>
 
-                                        <label for="newAge">Age</label>
-                                        <input data-name="age" type="number" class="form-control form-control-sm"
-                                               min="0" max="127"
-                                               id="newAge" required pattern='\d*' value="">
-                                        <div class="error" data-error="age"></div>
+                                        <div class="node">
+                                            <label for="newAge">Age</label>
+                                            <input data-name="age" type="number" class="form-control form-control-sm"
+                                                   min="0" max="127"
+                                                   id="newAge" required pattern='\d*' value="0">
+                                            <div class="invalid-tooltip" data-error="age"></div>
+                                        </div>
 
-                                        <label for="newEmail">Email</label>
-                                        <input data-name="email" type="text" class="form-control form-control-sm"
-                                               id="newEmail"
-                                               value="" autocomplete="off">
-                                        <div class="error" data-error="email"></div>
+                                        <div class="node">
+                                            <label for="newEmail">Email</label>
+                                            <input data-name="email" type="text" class="form-control form-control-sm"
+                                                   id="newEmail"
+                                                   value="" autocomplete="off">
+                                            <div class="invalid-tooltip" data-error="email"></div>
+                                        </div>
 
-                                        <label for="newPassword">Password</label>
-                                        <input data-name="password" type="password" class="form-control form-control-sm"
-                                               id="newPassword"
-                                               value="" autocomplete="off">
-                                        <div class="error" data-error="password"></div>
+                                        <div class="node">
+                                            <label for="newPassword">Password</label>
+                                            <input data-name="password" type="password"
+                                                   class="form-control form-control-sm"
+                                                   id="newPassword"
+                                                   value="" autocomplete="off">
+                                            <div class="invalid-tooltip" data-error="password"></div>
+                                        </div>
 
-                                        <label for="newRoles">Role</label>
-                                        <select data-name="roles" id="newRoles" class="form-control h-select " multiple>
-                                            <option th:each="r : ${rolList}" th:value="${r.name()}"
-                                                    th:text="${r.name()}"></option>
-                                        </select>
-                                        <div class="error" data-error="roles"></div>
+                                        <div class="node">
+                                            <label for="newRoles">Role</label>
+                                            <select data-name="roles" id="newRoles" class="form-control h-select "
+                                                    multiple>
+                                                <option th:each="r : ${rolList}" th:value="${r.name()}"
+                                                        th:text="${r.name()}"></option>
+                                            </select>
+                                            <div class="invalid-tooltip mt-2" data-error="roles"></div>
+                                        </div>
                                         <button id="button-addNewUser" type="button" class="btn btn-success btn-lg">Add
                                             new user
                                         </button>
@@ -240,37 +224,42 @@
                 <div class="user ">
 
                     <div id="modal-delete-fields" class="user-form mdl-width">
+                        <div class="node">
+                            <label for="deleteId">ID</label>
+                            <input type="text" class="form-control form-control-sm" id="deleteId" data-name="id"
+                                   value="" disabled>
+                        </div>
 
-                        <label for="deleteId">ID</label>
-                        <input type="text" class="form-control form-control-sm" id="deleteId" data-name="id"
-                               value="" disabled>
-                        <div class="error" data-error="id"></div>
+                        <div class="node">
+                            <label for="deleteFirstName">First name</label>
+                            <input type="text" class="form-control form-control-sm" id="deleteFirstName"
+                                   data-name="firstName" value="" disabled>
+                        </div>
 
-                        <label for="deleteFirstName">First name</label>
-                        <input type="text" class="form-control form-control-sm" id="deleteFirstName"
-                               data-name="firstName" value="" disabled>
-                        <div class="error" data-error="firstName"></div>
+                        <div class="node">
+                            <label for="deleteLastName">Last name</label>
+                            <input type="text" class="form-control form-control-sm" id="deleteLastName"
+                                   data-name="lastName" value="" disabled>
+                        </div>
 
-                        <label for="deleteLastName">Last name</label>
-                        <input type="text" class="form-control form-control-sm" id="deleteLastName"
-                               data-name="lastName" value="" disabled>
-                        <div class="error" data-error="lastName"></div>
+                        <div class="node">
+                            <label for="deleteAge">Age</label>
+                            <input type="number" class="form-control form-control-sm" min="0" max="127" id="deleteAge"
+                                   required pattern='\d*' data-name="age" value="" disabled>
+                        </div>
 
-                        <label for="deleteAge">Age</label>
-                        <input type="number" class="form-control form-control-sm" min="0" max="127" id="deleteAge"
-                               required pattern='\d*' data-name="age" value="" disabled>
-                        <div class="error" data-error="age"></div>
+                        <div class="node">
+                            <label for="deleteEmail">Email</label>
+                            <input type="text" class="form-control form-control-sm" id="deleteEmail" data-name="email"
+                                   value="" disabled>
+                        </div>
 
-                        <label for="deleteEmail">Email</label>
-                        <input type="text" class="form-control form-control-sm" id="deleteEmail" data-name="email"
-                               value="" disabled>
-                        <div class="error" data-error="email"></div>
-
-                        <label for="deleteRoles">Role</label>
-                        <select id="deleteRoles" class="form-control h-select mb-0" data-name="roles" multiple disabled>
-                            <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
-                        </select>
-                        <div class="error" data-error="roles"></div>
+                        <div class="node">
+                            <label for="deleteRoles">Role</label>
+                            <select id="deleteRoles" class="form-control h-select mb-0" data-name="roles" multiple disabled>
+                                <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
+                            </select>
+                        </div>
 
                     </div>
                 </div>
@@ -351,7 +340,7 @@
                             <select id="editRoles" class="form-control h-select mb-0" data-name="roles" multiple>
                                 <option th:each="r : ${rolList}" th:value="${r.name()}" th:text="${r.name()}"></option>
                             </select>
-                            <div class="invalid-tooltip" data-error="roles"></div>
+                            <div class="invalid-tooltip mt-4" data-error="roles"></div>
                         </div>
 
                     </div>
