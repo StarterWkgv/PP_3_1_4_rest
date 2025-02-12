@@ -40,7 +40,7 @@ html {
     height: 1210px;
     inset: 0;
     z-index: 9999;
-    background-image: var(--img-path-admin);
+    background-image: var(--img-path-modal-edit);
     background-size: cover;
     border: none;
     margin-top: -107px;
@@ -91,17 +91,20 @@ html {
     width: 30%;
     margin-bottom: 1.1rem;
 }
-
-.user-form > * :not(label, button) {
+.node {
+position: relative;
+    width: 100%;
+}
+.node > * :not(label, button) {
     width: 100%;
 }
 
-.user-form>label {
+.node >label {
     font-weight: bold;
     margin-bottom: 0;
 }
 
-.user-form>input,
+.node > input,
 select {
     margin-bottom: 1.05rem;
 }
@@ -110,10 +113,15 @@ select {
     height: 3.2rem !important;
 }
 
-.user .user-form {
+.user .node {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.node > .invalid-tooltip {
+    font-size: 0.58rem;
+    top: 74%
 }
 
 .mdl-lg {
