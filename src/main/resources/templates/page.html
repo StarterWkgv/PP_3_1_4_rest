@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<html th:with="adminPanel=${#httpServletRequest.getRequestURI().contains('admin')}" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,10 +12,10 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 
     <link rel="icon" href="/ico/favicon.ico">
-    <title>Admin panel</title>
+    <title th:text="${adminPanel ? 'Admin panel' : 'User page'}">Admin panel</title>
 </head>
 
-<body class="vh-100 bg-light">
+<body  class="vh-100 bg-light">
 <!-- header -->
 <header class="navbar navbar-expand navbar-dark bg-dark text-white fixed-top py-1 ">
     <div class="container-fluid px-1 ">
@@ -36,9 +36,9 @@
 <div class="row h-100 container-fluid ">
     <div class="col-2 px-0 pt-4 mt-3 side-font bg-white">
         <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active px-3 py-2" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin"
+            <a class="nav-link px-3 py-2" th:classappend="${adminPanel ? 'active' : ''}" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin"
                role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
-            <a class="nav-link px-3 py-2" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab"
+            <a class="nav-link   px-3 py-2" th:classappend="${!adminPanel ? 'active' : ''}" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab"
                aria-controls="v-pills-user" aria-selected="false">User</a>
         </div>
     </div>
@@ -46,7 +46,7 @@
     <div class="col-10 bg-light pt-5 px-3">
         <div class="tab-content pt-3 pl-3 pr-2" id="v-pills-tabContent">
             <!-- Active tab -->
-            <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel"
+            <div class="tab-pane fade " th:classappend="${adminPanel ? 'show active' : ''}" id="v-pills-admin" role="tabpanel"
                  aria-labelledby="v-pills-admin-tab">
                 <h1>Admin panel</h1>
                 <!-- Users table and new User -->
@@ -168,9 +168,8 @@
                 </div>
                 <!-- END Users table and new User -->
 
-
             </div>
-            <div class="tab-pane fade " id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+            <div class="tab-pane fade "  th:classappend="${!adminPanel ? 'show active' : ''}" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
                 <h1 class="mb-3">User information-page</h1>
                 <div class="border rounded">
                     <div class="px-3 py-2 border-bottom">

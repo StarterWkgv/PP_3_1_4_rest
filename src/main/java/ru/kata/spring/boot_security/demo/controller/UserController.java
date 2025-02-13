@@ -20,7 +20,7 @@ public class UserController {
     @GetMapping("/user")
     public String showUser(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("users", Collections.singleton(user));
-        return "/user/user";
+        return "/page";
     }
 
 }

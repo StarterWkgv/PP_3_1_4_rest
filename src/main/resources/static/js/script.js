@@ -31,19 +31,19 @@
             hideElement(v);
             v.textContent = "";
         });
-    }
+    };
 
     const clearFields = (fields) => {
         fields.forEach((v, k) => {
             if (k === "roles") {
-                Array.from( v.options ).forEach(opt => {
+                Array.from(v.options).forEach(opt => {
                     opt.selected = false;
                 })
             } else {
                 v.value = '';
             }
         })
-    }
+    };
 
     const readFields = fields => {
         return () => {
@@ -67,9 +67,9 @@
                         Array.from(fields.get(k).options).forEach(opt => {
                             opt.selected = user[k].includes(opt.value);
                         })
-                    } else {
-                        fields.get(k).value = user[k];
+                        return;
                     }
+                    fields.get(k).value = user[k];
                 })
             } catch (e) {
                 console.error("Couldn't get user data from the server", e);
@@ -77,31 +77,28 @@
         }
     };
 
-    const updateTable = async () => {
-        const getRow = user => {
-            let out = '<tr>';
-            Object.keys(user).forEach(k => {
-                if (k === "password") return;
-                out += `<td data-name=${k}>${k === "roles" ? user[k].reduce((a, b) => a + ` ${b}`, "") : user[k]}</td>`;
-            });
-            out += ` <td>
-                        <button type="button" class="btn btn-info px-1 py-1 "
-                             data-uid=${user.id} data-toggle="modal" data-target="#modal-edit">Edit</button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger px-1 py-1"
-                             data-uid=${user.id} data-toggle="modal" data-target="#modal-delete">Delete</button>
-                    </td>
-                </tr>`;
-            return out;
-        };
-        try {
-            const table = document.getElementById("usersTable").querySelector("tbody");
-            const resp = await fetch("/api/admin/users");
+    const but = (c, i, t) => ` <td> <button type="button" class="btn btn-${c} px-1 py-1 "
+                                                 data-uid=${i} data-toggle="modal" 
+                                                 data-target="#modal-${t}"> ${t.charAt(0).toUpperCase() + t.slice(1)} 
+                                                 </button></td>`;
 
+    const row = user => {
+        let out = '<tr>';
+        Object.keys(user).forEach(k => {
+            if (k === "password") return;
+            out += `<td data-name=${k}> ${k === "roles" ? user[k].reduce((a, b) => a + ` ${b}`, "") : user[k]} </td>`;
+        });
+        out += `${but("info", user.id, "edit")} ${but("danger", user.id, "delete")}`;
+        return out;
+    };
+
+    const updateTable = async () => {
+        try {
+            const resp = await fetch("/api/admin/users");
             if (resp.ok) {
                 let users = await resp.json();
-                table.innerHTML = users.map(getRow).reduce((a, b) => a + b, "");
+                document.getElementById("usersTable").querySelector("tbody")
+                    .innerHTML = users.map(row).reduce((a, b) => a + b, "");
             } else {
                 console.error(resp.status, " Couldn't get the list of users")
             }
