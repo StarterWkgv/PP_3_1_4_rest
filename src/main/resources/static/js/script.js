@@ -1,4 +1,4 @@
-(async function () {
+(async () => {
     const csrfValue = document.querySelector("[name=_csrf]").value;
     const csrfHeader = "X-CSRF-TOKEN";
     const modalDelete = $('#modal-delete');
@@ -107,7 +107,7 @@
         }
     };
 
-    const fetchAndUpdate = (met, modalFields, errorFields, readData, hideModal) => {
+    const fetchAndValidate = (met, modalFields, errorFields, readData, hideModal) => {
         return async () => {
             try {
                 clearErrorFields(errorFields);
@@ -172,14 +172,14 @@
     document.getElementById("newAge").addEventListener("input", validateAge);
 
     document.getElementById("button-delete")
-        .addEventListener("click", fetchAndUpdate("DELETE", deleteFields,
+        .addEventListener("click", fetchAndValidate("DELETE", deleteFields,
             new Map(), null, () => modalDelete.modal('hide')));
     document.getElementById("button-edit")
-        .addEventListener("click", fetchAndUpdate("PUT", editFields, errorEdit,
+        .addEventListener("click", fetchAndValidate("PUT", editFields, errorEdit,
             readFields(editFields), () => modalEdit.modal('hide')));
 
     document.getElementById("button-addNewUser")
-        .addEventListener("click", fetchAndUpdate("POST", addNewUserFields, errorAddNewUser,
+        .addEventListener("click", fetchAndValidate("POST", addNewUserFields, errorAddNewUser,
             readFields(addNewUserFields), () => $('#nav-users-tab').tab('show')));
 
     await updateTable();
