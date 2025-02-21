@@ -1,4 +1,6 @@
 (async () => {
+    const USERS_URL = "/api/admin/users";
+    const USERS_TABLE = "usersTable";
     const csrfValue = document.querySelector("[name=_csrf]").value;
     const csrfHeader = "X-CSRF-TOKEN";
     const modalDelete = $('#modal-delete');
@@ -92,20 +94,6 @@
         return out;
     };
 
-    const updateTable = async () => {
-        try {
-            const resp = await fetch("/api/admin/users");
-            if (resp.ok) {
-                let users = await resp.json();
-                document.getElementById("usersTable").querySelector("tbody")
-                    .innerHTML = users.map(row).reduce((a, b) => a + b, "");
-            } else {
-                console.error(resp.status, " Couldn't get the list of users")
-            }
-        } catch (e) {
-            console.error("Error >>> ", e);
-        }
-    };
 
     const fetchAndValidate = (met, modalFields, errorFields, readData, hideModal) => {
         return async () => {
@@ -124,7 +112,7 @@
 
                 if (response.ok) {
                     console.log(response.status);
-                    await updateTable();
+                    await (await updateTable)(USERS_URL, row, USERS_TABLE);
                 } else if (response.status === 400) {
                     errorObj = await response.json();
                     if (errorObj && errorObj["isValidation"]) {
@@ -174,6 +162,7 @@
     document.getElementById("button-delete")
         .addEventListener("click", fetchAndValidate("DELETE", deleteFields,
             new Map(), null, () => modalDelete.modal('hide')));
+   
     document.getElementById("button-edit")
         .addEventListener("click", fetchAndValidate("PUT", editFields, errorEdit,
             readFields(editFields), () => modalEdit.modal('hide')));
@@ -182,5 +171,5 @@
         .addEventListener("click", fetchAndValidate("POST", addNewUserFields, errorAddNewUser,
             readFields(addNewUserFields), () => $('#nav-users-tab').tab('show')));
 
-    await updateTable();
+    await (await updateTable)(USERS_URL, row, USERS_TABLE);
 })()
