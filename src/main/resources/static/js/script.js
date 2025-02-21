@@ -1,4 +1,4 @@
-(async () => {
+(async (getUpdateTable) => {
     const USERS_URL = "/api/admin/users";
     const USERS_TABLE = "usersTable";
     const csrfValue = document.querySelector("[name=_csrf]").value;
@@ -13,6 +13,18 @@
     let errorObj = null;
     const showElement = e => e.style.display = "block";
     const hideElement = e => e.style.display = "none";
+
+    const row = user => {
+        let out = '<tr>';
+        Object.keys(user).forEach(k => {
+            if (k === "password") return;
+            out += `<td data-name=${k}> ${k === "roles" ? user[k].reduce((a, b) => a + ` ${b}`, "") : user[k]} </td>`;
+        });
+        out += `${but("info", user.id, "edit")} ${but("danger", user.id, "delete")}`;
+        return out;
+    };
+
+    const updateTable = getUpdateTable(USERS_URL, row, USERS_TABLE);
 
     const fillMap = (modalId, fieldsMap, errorMap) => {
         document.getElementById(modalId).querySelectorAll("[data-name]").forEach(node => {
@@ -84,17 +96,6 @@
                                                  data-target="#modal-${t}"> ${t.charAt(0).toUpperCase() + t.slice(1)} 
                                                  </button></td>`;
 
-    const row = user => {
-        let out = '<tr>';
-        Object.keys(user).forEach(k => {
-            if (k === "password") return;
-            out += `<td data-name=${k}> ${k === "roles" ? user[k].reduce((a, b) => a + ` ${b}`, "") : user[k]} </td>`;
-        });
-        out += `${but("info", user.id, "edit")} ${but("danger", user.id, "delete")}`;
-        return out;
-    };
-
-
     const fetchAndValidate = (met, modalFields, errorFields, readData, hideModal) => {
         return async () => {
             try {
@@ -112,7 +113,7 @@
 
                 if (response.ok) {
                     console.log(response.status);
-                    await (await updateTable)(USERS_URL, row, USERS_TABLE);
+                     await updateTable();
                 } else if (response.status === 400) {
                     errorObj = await response.json();
                     if (errorObj && errorObj["isValidation"]) {
@@ -155,6 +156,7 @@
         clearFields(addNewUserFields);
         clearErrorFields(errorAddNewUser);
     });
+    $('#v-pills-admin-tab').on('show.bs.tab',async ()=> await updateTable() );
 
     document.getElementById("editAge").addEventListener("input", validateAge);
     document.getElementById("newAge").addEventListener("input", validateAge);
@@ -171,5 +173,5 @@
         .addEventListener("click", fetchAndValidate("POST", addNewUserFields, errorAddNewUser,
             readFields(addNewUserFields), () => $('#nav-users-tab').tab('show')));
 
-    await (await updateTable)(USERS_URL, row, USERS_TABLE);
-})()
+    await updateTable();
+})(getUpdateTable)
