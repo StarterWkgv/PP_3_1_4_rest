@@ -13,9 +13,10 @@ const getUpdateTable = (() => {
     };
 
     const header = user => {
-        let out = `<strong >${user['email']}</strong>
+        return `<strong >${user['email']}</strong>
         with roles:
-        <span>${user['roles'].reduce((a, b) => a + b, "")}</span>`;
+        <span>${user['roles'].reduce((a, b) => `${a} ${b}`, "")}</span>`;
+        // console.error(out);
     };
 
     const getUpdateTable = (url, row, table) => {
