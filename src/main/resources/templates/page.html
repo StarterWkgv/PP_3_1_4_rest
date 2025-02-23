@@ -22,9 +22,6 @@
     <div class="container-fluid px-1 ">
         <div>
             <a class="nav-username navbar-brand" id="navbar-username" href="#">
-                <!--                <strong >admin@mail.ru</strong>-->
-                <!--                with roles:-->
-                <!--                <span id="navbar-roles">ADMIN USER</span>-->
             </a>
         </div>
         <form th:method="POST" th:action="@{/logout}">
@@ -33,11 +30,11 @@
     </div>
 </header>
 <!-- header end -->
-
 <div class="row h-100 container-fluid ">
     <div class="col-2 px-0 pt-4 mt-3 side-font bg-white">
         <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link px-3 py-2" th:classappend="${adminPanel ? 'active' : ''}" id="v-pills-admin-tab"
+            <a th:if="${isAdmin}" class="nav-link px-3 py-2" th:classappend="${adminPanel ? 'active' : ''}"
+               id="v-pills-admin-tab"
                data-toggle="pill" href="#v-pills-admin"
                role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
             <a class="nav-link   px-3 py-2" th:classappend="${!adminPanel ? 'active' : ''}" id="v-pills-user-tab"
@@ -49,7 +46,8 @@
     <div class="col-10 bg-light pt-5 px-3">
         <div class="tab-content pt-3 pl-3 pr-2" id="v-pills-tabContent">
             <!-- Active tab -->
-            <div class="tab-pane fade " th:classappend="${adminPanel ? 'show active' : ''}" id="v-pills-admin"
+            <div th:if="${isAdmin}" class="tab-pane fade " th:classappend="${adminPanel ? 'show active' : ''}"
+                 id="v-pills-admin"
                  role="tabpanel"
                  aria-labelledby="v-pills-admin-tab">
                 <h1>Admin panel</h1>
@@ -173,7 +171,8 @@
                 <!-- END Users table and new User -->
 
             </div>
-            <div class="tab-pane fade " th:classappend="${!adminPanel ? 'show active' : ''}" id="v-pills-user"
+            <div class="tab-pane fade " th:classappend="${!adminPanel ? 'show active' : ''}"
+                 id="v-pills-user"
                  role="tabpanel" aria-labelledby="v-pills-user-tab">
                 <h1 class="mb-3">User information-page</h1>
                 <div class="border rounded">
@@ -364,8 +363,6 @@
 
 <!--***********************************************-->
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -377,7 +374,7 @@
         crossorigin="anonymous"></script>
 
 <script src="/js/userscript.js"></script>
-<script src="/js/script.js"></script>
+<script th:if="${isAdmin}" src="/js/script.js"></script>
 <script src="/js/podgonka.js"></script> <!--TODO: remove-->
 </body>
 

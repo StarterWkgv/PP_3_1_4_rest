@@ -14,8 +14,13 @@ public class ControllerAdviceImp {
         return RoleType.values();
     }
 
-    @ModelAttribute("details")
+    @ModelAttribute("currentUser")
     public UserDetails details(@AuthenticationPrincipal UserDetails ud) {
         return ud;
+    }
+
+    @ModelAttribute("testing")
+    public String testing() {
+        return "testingeeeeee";
     }
 }
