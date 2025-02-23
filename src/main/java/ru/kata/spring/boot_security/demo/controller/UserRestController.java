@@ -21,9 +21,7 @@ public class UserRestController {
 
     @GetMapping
     public ResponseEntity<UserDto> getUser(@AuthenticationPrincipal User user) {
-        return new ResponseEntity<>(userDtoMapper.map(user),HttpStatus.OK);
+        return new ResponseEntity<>(userDtoMapper.map(user), HttpStatus.OK);
 
     }
-
-
 }

@@ -67,21 +67,12 @@ html {
 }
 
 /*************************************************/
-/* .form-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.form-new {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-} */
 .error {
     font-size: 10pt;
     color: red;
     display: none;
 }
+
 .user {
     display: flex;
     justify-content: center;
@@ -91,15 +82,17 @@ html {
     width: 30%;
     margin-bottom: 1.1rem;
 }
+
 .node {
-position: relative;
+    position: relative;
     width: 100%;
 }
+
 .node > * :not(label, button) {
     width: 100%;
 }
 
-.node >label {
+.node > label {
     font-weight: bold;
     margin-bottom: 0;
 }
