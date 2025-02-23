@@ -40,7 +40,7 @@ html {
     height: 1210px;
     inset: 0;
     z-index: 9999;
-    background-image: var(--img-path-new);
+    background-image: var(--img-path-admin);
     background-size: cover;
     border: none;
     margin-top: -107px;
