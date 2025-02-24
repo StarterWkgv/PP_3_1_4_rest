@@ -31,7 +31,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll().stream()
-                .sorted((a,b)->(int)(a.getId() - b.getId()))
+                .sorted((a, b) -> (int) (a.getId() - b.getId()))
                 .collect(Collectors.toList());
     }
 

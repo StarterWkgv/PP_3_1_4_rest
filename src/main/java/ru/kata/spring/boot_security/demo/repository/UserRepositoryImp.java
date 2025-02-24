@@ -47,7 +47,7 @@ public class UserRepositoryImp implements UserRepository {
 
     @Override
     public Optional<User> getById(long id) {
-        return entityManager.createQuery("select u from User u join fetch u.roles  where u.id = :id",User.class)
+        return entityManager.createQuery("select u from User u join fetch u.roles  where u.id = :id", User.class)
                 .setParameter("id", id)
                 .getResultStream()
                 .findAny();

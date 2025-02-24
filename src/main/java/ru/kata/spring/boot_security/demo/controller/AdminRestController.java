@@ -64,7 +64,7 @@ public class AdminRestController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addNewUser( @Valid @RequestBody UserDto user, BindingResult br) {
+    public ResponseEntity<HttpStatus> addNewUser(@Valid @RequestBody UserDto user, BindingResult br) {
         userValidator.validate(user, br);
         if (br.hasErrors()) {
             throw new UserValidationException("couldn't add user", br);

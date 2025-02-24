@@ -34,7 +34,7 @@ public class UserValidator implements Validator {
         if (userDto.getId() == 0 && userDto.getPassword().isBlank()) {
             errors.rejectValue("password", "", "The password should not be empty");
         }
-        if (userDto.getAge() < 0 || userDto.getAge() > 127){
+        if (userDto.getAge() < 0 || userDto.getAge() > 127) {
             errors.rejectValue("age", "", "The age should be between 0 and 127");
         }
 

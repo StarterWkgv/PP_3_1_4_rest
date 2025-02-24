@@ -10,6 +10,6 @@ public class StringToRoleConverter implements Converter<String, Role> {
     @Override
     public Role convert(String source) {
         RoleType role = RoleType.valueOf(source);
-        return new Role(role.ordinal()+1,role) ;
+        return new Role(role.ordinal() + 1, role);
     }
 }
