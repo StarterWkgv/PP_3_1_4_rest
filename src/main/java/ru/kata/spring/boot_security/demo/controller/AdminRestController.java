@@ -50,7 +50,6 @@ public class AdminRestController {
         return new ResponseEntity<>(userService.findAll().stream()
                 .map(userDtoMapper::map)
                 .collect(Collectors.toList()), HttpStatus.OK);
-
     }
 
     @PutMapping("/{id}")

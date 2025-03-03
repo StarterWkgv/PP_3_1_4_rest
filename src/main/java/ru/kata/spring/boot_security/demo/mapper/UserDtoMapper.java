@@ -40,9 +40,11 @@ public class UserDtoMapper implements Mapper<User, UserDto> {
         to.setLastName(from.getLastName());
         to.setAge((byte) from.getAge());
         to.setEmail(from.getEmail());
-        to.setRoles(from.getRoles().stream()
+        to.setRoles(from.getRoles()
+                .stream()
                 .map(converter::convert)
                 .collect(Collectors.toSet()));
+
         if (!from.getPassword().isBlank()) {
             to.setPassword(encoder.encode(from.getPassword()));
         }

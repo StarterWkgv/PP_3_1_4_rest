@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.mapper.UserDtoMapper;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +40,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public void save(UserDto user) {
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(userDtoMapper.copy(user, new User()));
+    }
+
+    @Transactional
+    @Override
+    public void save(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
     @Transactional

@@ -12,6 +12,8 @@ public interface UserService {
 
     void save(UserDto user);
 
+    void save(User user);
+
     boolean delete(long id);
 
     boolean update(UserDto user, long id);

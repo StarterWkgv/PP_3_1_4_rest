@@ -1,9 +1,9 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import ru.kata.spring.boot_security.demo.util.RoleType;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "role")
@@ -13,14 +13,17 @@ public class Role implements GrantedAuthority, Comparable<Role> {
     @Column(name = "role_id")
     private int id;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private RoleType role;
+    @Column(name = "role", unique = true, nullable = false)
+    private String role;
 
     public Role() {
     }
 
-    public Role(int id, RoleType role) {
+    public Role(String role) {
+        this.role = role;
+    }
+
+    public Role(int id, String role) {
         this.id = id;
         this.role = role;
     }
@@ -33,22 +36,22 @@ public class Role implements GrantedAuthority, Comparable<Role> {
         this.id = id;
     }
 
-    public RoleType getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(RoleType role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
     @Override
     public String getAuthority() {
-        return role.name();
+        return role;
     }
 
     @Override
-    public String toString() {
-        return this.role.name();
+    public int compareTo(Role o) {
+        return getRole().compareTo(o.getRole());
     }
 
     @Override
@@ -56,7 +59,7 @@ public class Role implements GrantedAuthority, Comparable<Role> {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         Role role1 = (Role) o;
-        return getRole() == role1.getRole();
+        return Objects.equals(getRole(), role1.getRole());
     }
 
     @Override
@@ -64,8 +67,4 @@ public class Role implements GrantedAuthority, Comparable<Role> {
         return getRole().hashCode();
     }
 
-    @Override
-    public int compareTo(Role o) {
-        return this.role.ordinal() - o.getRole().ordinal();
-    }
 }

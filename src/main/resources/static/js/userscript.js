@@ -8,7 +8,6 @@ const getUpdateTable = (() => {
             if (k === "password") return;
             out += `<td data-name=${k}> ${k === "roles" ? user[k].reduce((a, b) => a + ` ${b}`, "") : user[k]} </td>`;
         });
-        // out += `${but("info", user.id, "edit")} ${but("danger", user.id, "delete")}`;
         return out;
     };
 
@@ -16,7 +15,6 @@ const getUpdateTable = (() => {
         return `<strong >${user['email']}</strong>
         with roles:
         <span>${user['roles'].reduce((a, b) => `${a} ${b}`, "")}</span>`;
-        // console.error(out);
     };
 
     const getUpdateTable = (url, row, table) => {
