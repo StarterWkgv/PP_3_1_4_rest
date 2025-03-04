@@ -70,10 +70,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User hidePassword() {
-        return new User(id, firstName, lastName, age, email, roles, "");
-    }
-
     public long getId() {
         return id;
     }

@@ -24,6 +24,7 @@ const getUpdateTable = (() => {
                 const resp = await fetch(url);
                 if (resp.ok) {
                     let users = await resp.json();
+                    console.log(users);
                     document.getElementById(table).innerHTML = Array.of(users).flatMap(a => a).map(row).reduce((a, b) => a + b, "");
                 } else {
                     console.error(resp.status, " Couldn't get the data from server")

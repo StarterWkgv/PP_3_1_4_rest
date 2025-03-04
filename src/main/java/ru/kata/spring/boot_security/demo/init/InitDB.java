@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.init;
 
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.mapper.UserDtoMapper;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;

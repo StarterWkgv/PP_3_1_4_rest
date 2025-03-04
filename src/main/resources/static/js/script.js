@@ -1,4 +1,5 @@
 (async (getUpdateTable) => {
+    const newUserTab = $('#nav-newUser-tab');
     const USERS_URL = "/api/admin/users";
     const USERS_TABLE = "usersTable";
     const csrfValue = document.querySelector("[name=_csrf]").value;
@@ -113,7 +114,7 @@
 
                 if (response.ok) {
                     console.log(response.status);
-                     await updateTable();
+                    await updateTable();
                 } else if (response.status === 400) {
                     errorObj = await response.json();
                     if (errorObj && errorObj["isValidation"]) {
@@ -152,11 +153,15 @@
     modalEdit.on('shown.bs.modal', fillInputs(editFields));
     modalEdit.on('hide.bs.modal', () => clearErrorFields(errorEdit));
 
-    $('#nav-newUser-tab').on('hide.bs.tab', () => {
+    newUserTab.on('hide.bs.tab', () => {
         clearFields(addNewUserFields);
         clearErrorFields(errorAddNewUser);
     });
-    $('#v-pills-admin-tab').on('show.bs.tab',async ()=> await updateTable() );
+    newUserTab.on('show.bs.tab', () => {
+        clearFields(addNewUserFields);
+        clearErrorFields(errorAddNewUser);
+    });
+    $('#v-pills-admin-tab').on('show.bs.tab', async () => await updateTable());
 
     document.getElementById("editAge").addEventListener("input", validateAge);
     document.getElementById("newAge").addEventListener("input", validateAge);
@@ -164,7 +169,7 @@
     document.getElementById("button-delete")
         .addEventListener("click", fetchAndValidate("DELETE", deleteFields,
             new Map(), null, () => modalDelete.modal('hide')));
-   
+
     document.getElementById("button-edit")
         .addEventListener("click", fetchAndValidate("PUT", editFields, errorEdit,
             readFields(editFields), () => modalEdit.modal('hide')));

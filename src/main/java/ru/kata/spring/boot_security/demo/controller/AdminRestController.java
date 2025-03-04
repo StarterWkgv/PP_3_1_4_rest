@@ -12,9 +12,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -72,18 +70,4 @@ public class AdminRestController {
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @ExceptionHandler(UserValidationException.class)
-    public ResponseEntity<Map<String, String>> notValidExceptionHandler(UserValidationException err) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("isValidation", "true");
-        err.getBindingResult()
-                .getFieldErrors()
-                .forEach(e -> errorMap.put(e.getField(), e.getDefaultMessage()));
-        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> userNotFoundExceptionHandler(UserNotFoundException err) {
-        return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
-    }
 }
