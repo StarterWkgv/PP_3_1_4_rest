@@ -22,11 +22,11 @@ public class DataInitializer {
     public void init() {
         Role roleAdmin = new Role("ADMIN");
         Role roleUser = new Role("USER");
-        if (userService.getUserByEmail("admin").isEmpty()) {
+        if (userService.getUserByEmail("admin@mail.ru").isEmpty()) {
             User admin = new User("Admin", "Admin", (byte) 30, "admin@mail.ru", new HashSet<>(List.of(roleAdmin, roleUser)), "admin");
             userService.save(admin);
         }
-        if (userService.getUserByEmail("user").isEmpty()) {
+        if (userService.getUserByEmail("user@mail.ru").isEmpty()) {
             User user = new User("User", "User", (byte) 35, "user@mail.ru", new HashSet<>(List.of(roleUser)), "user");
             userService.save(user);
         }
