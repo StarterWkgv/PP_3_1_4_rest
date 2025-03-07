@@ -67,11 +67,4 @@ public class Role implements GrantedAuthority, Comparable<Role> {
         return getRole().hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", role='" + role + '\'' +
-                '}';
-    }
 }

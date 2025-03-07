@@ -46,6 +46,9 @@ public class UserRestController {
     @PostMapping("/admin/users")
     public ResponseEntity<HttpStatus> addNewUser(@RequestBody User user) {
         checkUser(user);
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new RuntimeException("Password is empty");
+        }
         userService.save(user);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }

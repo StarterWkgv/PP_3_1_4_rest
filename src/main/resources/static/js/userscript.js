@@ -3,7 +3,7 @@ const getUpdateTable = (() => {
     const USER_TABLE = "userInfo";
     const HEADER_ID = "navbar-username";
 
-    function User({id, firstName, lastName,age, email, roles, password}){
+    function User({id, firstName, lastName, age, email, roles, password}) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +36,7 @@ const getUpdateTable = (() => {
                 if (resp.ok) {
                     let users = await resp.json();
                     console.log(users);
-                    document.getElementById(table).innerHTML = Array.of(users).flatMap(a => a).map(u=>{
+                    document.getElementById(table).innerHTML = Array.of(users).flatMap(a => a).map(u => {
                         let us = new User(u)
                         console.log("user in update table" + JSON.stringify(us))
                         return us;

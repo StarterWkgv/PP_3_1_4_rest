@@ -151,7 +151,8 @@
                                             <select data-name="roles" id="newRoles" class="form-control h-select "
                                                     multiple>
                                                 <option th:each="r : ${rolList}" th:value="${r.getId()}"
-                                                        th:text="${r.getRole()}" th:attr="data-id=${r.getId()}"></option>
+                                                        th:text="${r.getRole()}"
+                                                        th:attr="data-id=${r.getId()}"></option>
                                             </select>
                                             <div class="invalid-tooltip mt-2" data-error="roles"></div>
                                         </div>
@@ -256,7 +257,8 @@
                             <label for="deleteRoles">Role</label>
                             <select id="deleteRoles" class="form-control h-select mb-0" data-name="roles" multiple
                                     disabled>
-                                <option th:each="r : ${rolList}" th:value="${r.getId()}" th:text="${r.getRole()}" th:attr="data-id=${r.getId()}"></option>
+                                <option th:each="r : ${rolList}" th:value="${r.getId()}" th:text="${r.getRole()}"
+                                        th:attr="data-id=${r.getId()}"></option>
                             </select>
                         </div>
 
@@ -337,7 +339,8 @@
                         <div class="node">
                             <label for="editRoles">Role</label>
                             <select id="editRoles" class="form-control h-select mb-0" data-name="roles" multiple>
-                                <option th:each="r : ${rolList}" th:value="${r.getId()}" th:text="${r.getRole()}" th:attr="data-id=${r.getId()}"></option>
+                                <option th:each="r : ${rolList}" th:value="${r.getId()}" th:text="${r.getRole()}"
+                                        th:attr="data-id=${r.getId()}"></option>
                             </select>
                             <div class="invalid-tooltip mt-4" data-error="roles"></div>
                         </div>
