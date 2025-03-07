@@ -15,11 +15,23 @@
     const showElement = e => e.style.display = "block";
     const hideElement = e => e.style.display = "none";
 
+    function User({id, firstName, lastName, age, email, roles, password}) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.roles = roles;
+        this.password = "";
+    }
+
+
     const row = user => {
+        console.log("in AdminScript >>>" + JSON.stringify(user));
         let out = '<tr>';
         Object.keys(user).forEach(k => {
             if (k === "password") return;
-            out += `<td data-name=${k}> ${k === "roles" ? user[k].reduce((a, b) => a + ` ${b}`, "") : user[k]} </td>`;
+            out += `<td data-name=${k}> ${k === "roles" ? user[k].reduce((a, b) => a + ` ${b.role}`, "") : user[k]} </td>`;
         });
         out += `${but("info", user.id, "edit")} ${but("danger", user.id, "delete")}`;
         return out;
@@ -40,12 +52,8 @@
     fillMap("modal-edit", editFields, errorEdit);
     fillMap("addNewUser", addNewUserFields, errorAddNewUser);
 
-    const clearErrorFields = (ef) => {
+    const clearErrorFields = () => {
         errorObj = null;
-        ef.forEach(v => {
-            hideElement(v);
-            v.textContent = "";
-        });
     };
 
     const clearFields = (fields) => {
@@ -64,7 +72,9 @@
         return () => {
             let user = {};
             fields.forEach((v, k) => {
-                user[k] = k === "roles" ? Array.from(v.selectedOptions).map(r => r.value) : v.value;
+                user[k] = k === "roles" ? Array.from(v.selectedOptions).map(r => {
+                    return {id: r.value, role: r.textContent}
+                }) : v.value;
             });
             return JSON.stringify(user);
         }
@@ -76,11 +86,12 @@
                 let response = await fetch(`/api/admin/users/${$(event.relatedTarget).data('uid')}`);
                 let user = await response.json();
                 if (!user) return;
+                user = new User(user);
                 Object.keys(user).forEach(k => {
                     if (k === "password") return;
                     if (k === "roles") {
                         Array.from(fields.get(k).options).forEach(opt => {
-                            opt.selected = user[k].includes(opt.value);
+                            opt.selected = user[k].filter(r => r.role === opt.textContent).length > 0;
                         })
                         return;
                     }
@@ -97,38 +108,26 @@
                                                  data-target="#modal-${t}"> ${t.charAt(0).toUpperCase() + t.slice(1)} 
                                                  </button></td>`;
 
-    const fetchAndValidate = (met, modalFields, errorFields, readData, hideModal) => {
+    const sendData = (met, modalFields, readData, hideModal) => {
         return async () => {
             try {
-                clearErrorFields(errorFields);
+                clearErrorFields()
                 let id = modalFields.get("id");
                 const reqHeaders = new Headers();
                 reqHeaders.append(csrfHeader, csrfValue);
                 reqHeaders.append('Content-Type', 'application/json',);
-                const response = await fetch(`/api/admin/users/${id ? id.value : ''}`,
-                    {
-                        method: met,
-                        headers: reqHeaders,
-                        body: readData ? readData() : ''
-                    });
+                const response = await fetch(`/api/admin/users/${id ? id.value : ''}`, {
+                    method: met, headers: reqHeaders, body: readData ? readData() : ''
+                });
 
                 if (response.ok) {
                     console.log(response.status);
                     await updateTable();
                 } else if (response.status === 400) {
                     errorObj = await response.json();
-                    if (errorObj && errorObj["isValidation"]) {
-                        for (let i in errorObj) {
-                            if (i === "isValidation") continue;
-                            errorFields.get(i).textContent = errorObj[i];
-                            showElement(errorFields.get(i))
-                        }
-                    } else {
-                        console.error(response.status, ` couldn't perform ${met} operation`);
-                        errorObj = null;
+                    if (errorObj) {
+                        alert("Error >>> " + errorObj.error);
                     }
-                } else {
-                    console.error(response.status, ` couldn't perform ${met} operation`);
                 }
             } catch (e) {
                 console.error("Error >>> ", e);
@@ -141,8 +140,7 @@
     const validateAge = e => {
         try {
             let v = parseInt(e.target.value);
-            if (v > 127)
-                e.target.value = 127;
+            if (v > 127) e.target.value = 127;
             if (v < 0) e.target.value = 0;
         } catch (e) {
             e.target.value = 0;
@@ -167,16 +165,13 @@
     document.getElementById("newAge").addEventListener("input", validateAge);
 
     document.getElementById("button-delete")
-        .addEventListener("click", fetchAndValidate("DELETE", deleteFields,
-            new Map(), null, () => modalDelete.modal('hide')));
+        .addEventListener("click", sendData("DELETE", deleteFields, null, () => modalDelete.modal('hide')));
 
     document.getElementById("button-edit")
-        .addEventListener("click", fetchAndValidate("PUT", editFields, errorEdit,
-            readFields(editFields), () => modalEdit.modal('hide')));
+        .addEventListener("click", sendData("PUT", editFields, readFields(editFields), () => modalEdit.modal('hide')));
 
     document.getElementById("button-addNewUser")
-        .addEventListener("click", fetchAndValidate("POST", addNewUserFields, errorAddNewUser,
-            readFields(addNewUserFields), () => $('#nav-users-tab').tab('show')));
+        .addEventListener("click", sendData("POST", addNewUserFields, readFields(addNewUserFields), () => $('#nav-users-tab').tab('show')));
 
     await updateTable();
 })(getUpdateTable)

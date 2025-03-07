@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,42 +16,29 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private long id;
 
-    @Size(min = 1, max = 50, message = "Name should be between 1 and 50 characters")
     @Column(name = "first_name")
     private String firstName;
 
-    @Size(min = 1, max = 50, message = "Last name should be between 1 and 50 characters")
     @Column(name = "last_name")
     private String lastName;
 
-    @Min(value = 0, message = "Age should be greater then 0")
-    @Max(value = 127, message = "Age should be less then 128")
     @Column(name = "age")
     private byte age;
 
-    @NotEmpty(message = "The field should not be empty")
-    @Email(message = "Wrong format")
     @Column(name = "email", unique = true)
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    @NotEmpty(message = "The field should not be empty")
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @NotEmpty(message = "The field should not be empty")
     @Column(name = "password")
     private String password;
 
     public User() {
     }
 
-    public User(long id, String firstName, String lastName, byte age, String email, Set<Role> roles, String password) {
-        this.id = id;
+    public User(String firstName, String lastName, byte age, String email, Set<Role> roles, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -61,7 +47,8 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User(String firstName, String lastName, byte age, String email, Set<Role> roles, String password) {
+    public User(long id, String firstName, String lastName, byte age, String email, Set<Role> roles, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
